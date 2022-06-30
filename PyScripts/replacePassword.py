@@ -1,11 +1,11 @@
-from PyScripts.database import *
+from PyScripts.tools import *
 from flask import Blueprint
 import socket
 from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from PyScripts.database import *
+from PyScripts.tools import *
 from datetime import datetime, timedelta
 from PyScripts.token import generate_confirmation_token, confirm_token
 import string

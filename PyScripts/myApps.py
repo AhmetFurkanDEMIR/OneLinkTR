@@ -1,7 +1,7 @@
 from re import template
 from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
 from flask import Blueprint
-from PyScripts.database import *
+from PyScripts.tools import *
 import os
 import qrcode
 

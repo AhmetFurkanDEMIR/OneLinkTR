@@ -1,5 +1,5 @@
 import qrcode
-from PyScripts.database import *
+from PyScripts.tools import *
 from flask import Blueprint
 import socket
 from flask import render_template, Flask, flash, request, logging, session, redirect, url_for

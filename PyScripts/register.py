@@ -5,7 +5,7 @@ from flask import render_template, request, redirect, url_for
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from PyScripts.database import *
+from PyScripts.tools import *
 from datetime import datetime, timedelta
 
 registerBluePrint = Blueprint('register', __name__,

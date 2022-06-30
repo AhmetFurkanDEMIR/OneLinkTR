@@ -1,6 +1,6 @@
 from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
 from matplotlib.pyplot import flag
-from PyScripts.database import *
+from PyScripts.tools import *
 from PyScripts.generate import generateBluePrint
 from PyScripts.register import registerBluePrint, confirm_emailBluePrint
 from PyScripts.myApps import myAppsBluePrint
