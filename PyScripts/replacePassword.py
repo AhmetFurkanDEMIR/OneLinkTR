@@ -21,6 +21,20 @@ resetPassBluePrint = Blueprint('resetPass', __name__,
 @replacePassBluePrint.route("/replacePass",methods = ['GET', 'POST'])
 def replacePass():
 
+    flag = None
+
+    try:
+
+        print(session["user_id"])
+
+    except:
+
+        flag = True
+
+    if flag == None:
+
+        return redirect(url_for("myApps.myApps"))
+
     if request.method == "POST":
 
         try:
@@ -83,23 +97,38 @@ def replacePass():
                     server.login(gonderenMail, sifre)
                     server.sendmail(gonderenMail, gonderilenMail, yazi)
 
-                session["flag"] = 1
-                session["flagText"] = "Şifre yenileme bağlantısı gönderildi, lütfen mail kutunuzu kontrol ediniz (bağlantı 10 dk geçerlilik süresine sahip)"
+                session["flag"] = 0
+                session["flagText"] = "Şifre yenileme bağlantısı gönderildi, lütfen mail kutunuzu kontrol ediniz (bağlantı 30 dk geçerlilik süresine sahip)"
                 return redirect(url_for("main"))
 
             except:
 
-                return render_template("/PasswordSendMail.html", flag=2, flagText="Bir hata oluştu, lütfen tekrar deneyiniz.")
+                session["flag"] = 2
+                session["flagText"] = "Bir hata oluştu, lütfen tekrar deneyiniz."
+                return redirect(url_for("replacePass.replacePass"))
 
 
         except:
 
-            return render_template("/PasswordSendMail.html", flag=2, flagText="Bu email adresine sahip kayıt bulunamadı.")
+            session["flag"] = 2
+            session["flagText"] = "Bu email adresine sahip kayıt bulunamadı."
+            return redirect(url_for("replacePass.replacePass"))
 
 
     else:
 
-        return render_template("/PasswordSendMail.html")
+        if session["flag"] != 99:
+
+            flag = session["flag"]
+            flagText = session["flagText"]
+
+            session["flag"] = 99
+
+            return render_template("/PasswordSendMail.html", flag=flag, flagText=flagText)
+
+        else:
+
+            return render_template("/PasswordSendMail.html")
 
 
 @resetPassBluePrint.route("/resetPass/<token>",methods = ['GET', 'POST'])
@@ -138,7 +167,7 @@ def resetPass(token):
 
         now = datetime.now()
 
-        new_final_time = datetime_object + timedelta(minutes=10)
+        new_final_time = datetime_object + timedelta(minutes=30)
 
         if now>=new_final_time:
 

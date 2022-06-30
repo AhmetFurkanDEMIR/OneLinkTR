@@ -134,7 +134,7 @@
 
 				<div class="input-group-text">
 
-					<input type="checkbox" id="iosRadio" name="iosRadio" value="true" Checked="checked"
+					<input type="checkbox" id="iosCheck" name="iosCheck" value="true" Checked="checked"
 						aria-label="Checkbox for following text input">
 
 				</div>
@@ -156,7 +156,7 @@
 
 				<div class="input-group-text">
 
-					<input type="checkbox" id="androidRadio" name="androidRadio" value="true" Checked="checked"
+					<input type="checkbox" id="androidCheck" name="androidCheck" value="true" Checked="checked"
 						aria-label="Checkbox for following text input">
 
 				</div>
@@ -178,13 +178,12 @@
 
 				<div class="input-group-text">
 
-					<input type="checkbox" id="huaweiRadio" name="huaweiRadio" value="true" Checked="checked"
+					<input type="checkbox" id="huaweiCheck" name="huaweiCheck" value="true" Checked="checked"
 						aria-label="Checkbox for following text input">
 
 				</div>
 
 			</div>
-
 
 
 			<div class="input-group mb-3">
@@ -200,7 +199,7 @@
 
 				<div class="input-group-text">
 
-					<input type="checkbox" id="windowsRadio" name="windowsRadio" value="true" Checked="checked"
+					<input type="checkbox" id="windowsCheck" name="windowsCheck" value="true" Checked="checked"
 						aria-label="Checkbox for following text input">
 
 				</div>
@@ -221,14 +220,29 @@
 
 				<div class="input-group-text">
 
-					<input type="checkbox" id="ubuntuRadio" name="ubuntuRadio" value="true" Checked="checked"
+					<input type="checkbox" id="ubuntuCheck" name="ubuntuCheck" value="true" Checked="checked"
 						aria-label="Checkbox for following text input">
 
 				</div>
 
 			</div>
 
-			<button type="submit" class="btn btn-primary">Generate Link and QR code</button>
+			{% if count==2 %}
+
+			<h6 class="margin-top-15" style="color:green;">Remaining App Creation Rights: {{count}}</h6>
+
+			{% elif count==1 %}
+
+			<h6 class="margin-top-15" style="color:rgb(200, 193, 0);">Remaining App Creation Rights: {{count}}</h6>
+
+			{% else %}
+
+			<h6 class="margin-top-15" style="color:red;">Remaining App Creation Rights: {{count}}</h6>
+
+			{% endif %}
+
+
+			<button id="buttonsub" type="submit" class="btn btn-primary">Generate Link and QR code</button>
 
 		</form>
 
@@ -238,28 +252,28 @@
 
 	<script>
 
-		document.getElementById('iosRadio').onchange = function () {
+		document.getElementById('iosCheck').onchange = function () {
 			document.getElementById('iosText').disabled = !this.checked;
 			document.getElementById('iosText').required = this.checked
 		};
 
 
-		document.getElementById('androidRadio').onchange = function () {
+		document.getElementById('androidCheck').onchange = function () {
 			document.getElementById('androidText').disabled = !this.checked;
 			document.getElementById('androidText').required = this.checked
 		};
 
-		document.getElementById('huaweiRadio').onchange = function () {
+		document.getElementById('huaweiCheck').onchange = function () {
 			document.getElementById('huaweiText').disabled = !this.checked;
 			document.getElementById('huaweiText').required = this.checked
 		};
 
-		document.getElementById('windowsRadio').onchange = function () {
+		document.getElementById('windowsCheck').onchange = function () {
 			document.getElementById('windowsText').disabled = !this.checked;
 			document.getElementById('windowsText').required = this.checked
 		};
 
-		document.getElementById('ubuntuRadio').onchange = function () {
+		document.getElementById('ubuntuCheck').onchange = function () {
 			document.getElementById('ubuntuText').disabled = !this.checked;
 			document.getElementById('ubuntuText').required = this.checked
 		};
@@ -267,6 +281,43 @@
 
 
 	</script>
+
+	{% if count==0 %}
+
+	<script>
+
+		document.getElementById('appName').disabled = true;
+		document.getElementById('iosText').disabled = true;
+		document.getElementById('androidText').disabled = true;
+		document.getElementById('windowsText').disabled = true;
+		document.getElementById('huaweiText').disabled = true;
+		document.getElementById('ubuntuText').disabled = true;
+
+
+		document.getElementById('iosCheck').checked = false;
+		document.getElementById('iosCheck').disabled = true;
+
+		document.getElementById('androidCheck').checked = false;
+		document.getElementById('androidCheck').disabled = true;
+
+		document.getElementById('huaweiCheck').checked = false;
+		document.getElementById('huaweiCheck').disabled = true;
+
+		document.getElementById('windowsCheck').checked = false;
+		document.getElementById('windowsCheck').disabled = true;
+
+		document.getElementById('ubuntuCheck').checked = false;
+		document.getElementById('ubuntuCheck').disabled = true;
+
+		document.getElementById('ubuntuCheck').checked = false;
+		document.getElementById('ubuntuCheck').disabled = true;
+
+
+		document.getElementById('buttonsub').disabled = true;
+
+	</script>
+
+	{% endif %}
 
 	<br></br>
 

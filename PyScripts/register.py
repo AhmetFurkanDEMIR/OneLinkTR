@@ -39,31 +39,56 @@ def register():
 			password = request.form['password']
 			passworda = request.form['passworda']
 
-			if (len(str(ad))<3 or len(str(ad)) > 30) and (len(str(soyad))<3 or len(str(soyad)) > 30):
+			if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
 
-				return render_template("/register.html", flag=2, flagText="Ad ve Soyad 3 karakterden küçük olamaz.")
+				session["flag"] = 2
+				session["flagText"] = "Ad ve Soyad 3 karakterden küçük ve 30 karakterden büyük olamaz."
+
+				return redirect(url_for("register.register"))
 
 			if len(str(tel)) != 10:
 
-				return render_template("/register.html", flag=2, flagText="Lütfen telefon numarınızın başında 0 olmadan ve boşluk bırakmadan tam bir şekilde tekrar giriniz.")
+				session["flag"] = 2
+				session["flagText"] = "telefon numarasını 10 haneli olmalıdır"
 
-			if len(str(password)) < 8 or len(str(password)) > 30:
+				return redirect(url_for("register.register"))
 
-				return render_template("/register.html", flag=2, flagText="Şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz.")
+			if (len(str(password)) < 8 or len(str(password)) > 30) or (len(str(passworda)) < 8 or len(str(passworda)) > 30):
+
+				session["flag"] = 2
+				session["flagText"] = "Şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
+
+				return redirect(url_for("register.register"))
+
 
 			if ("@gmail.com" in email) == False:
 
-				return render_template("/register.html", flag=2, flagText="Projemiz henüz beta sürümünde olduğu için yanlızca gmail uzantılı google maillerine izin veriyoruz.")
+				session["flag"] = 2
+				session["flagText"] = "Projemiz henüz beta sürümünde olduğu için yanlızca gmail uzantılı google maillerine izin veriyoruz."
 
+				return redirect(url_for("register.register"))
 
+			if len(str(email)) < 5 or len(str(email))>50:
+
+				session["flag"] = 2
+				session["flagText"] = "Hatali mail"
+
+				return redirect(url_for("register.register"))
 
 		except:
 
-			return render_template("/register.html", flag=2, flagText="Missing data has been entered, please fill in all the boxes.")
+			session["flag"] = 2
+			session["flagText"] = "Missing data has been entered, please fill in all the boxes."
+
+			return redirect(url_for("register.register"))
+
 
 		if password!=passworda:
 
-			return render_template("/register.html", flag=2, flagText="The two passwords you entered are not the same, please try again.")
+			session["flag"] = 2
+			session["flagText"] = "The two passwords you entered are not the same, please try again."
+
+			return redirect(url_for("register.register"))
 
 		try:
 
@@ -71,12 +96,20 @@ def register():
             
 			try:
 
-				cursor.execute('INSERT INTO TBL_Users(user_name, user_surname, user_phone, user_email, user_password, user_isdeleted, user_confirmed, user_countattack) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)',(ad, soyad, tel, email, password, 0, 0, 0,))
-				conn.commit()
+				cursor.execute(
+				'SELECT * FROM TBL_Users WHERE user_email=%s or user_phone=%s', (email, tel,))
+				user = cursor.fetchall()
+				user_id = user[0][0]
+
+				session["flag"] = 2
+				session["flagText"] = "Bu Email veya Telefon numarası daha önceden kullanılmış."
+
+				return redirect(url_for("register.register"))
 
 			except:
 
-				return render_template("/register.html", flag=2, flagText="Bu Email veya Telefon numarası daha önceden kullanılmış.")
+				cursor.execute('INSERT INTO TBL_Users(user_name, user_surname, user_phone, user_email, user_password, user_isdeleted, user_confirmed, user_countattack, user_appcount) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',(ad, soyad, tel, email, password, 0, 0, 0,0,))
+				conn.commit()
 
 			token = generate_confirmation_token(email)
 
@@ -111,17 +144,31 @@ def register():
 
 		except:
 
-			return render_template("/register.html", flag=2, flagText="Kayıt sırasında bir hata ile karşılaşıldı, lütfen tekrar deneyiniz.")
-	
+			session["flag"] = 2
+			session["flagText"] = "Kayıt sırasında bir hata ile karşılaşıldı, lütfen tekrar deneyiniz."
+
+			return redirect(url_for("register.register"))
 
 		session["flag"] = 0
-		session["flagText"] = "Email doğrulama aşaması, lütfen \""+email+"\" adlı mail adresinize gidip doğrulama bağlantısına tıklayınız (bağlantı geçerlilik süresi 10 dk). Ardından hesabınız aktifleşecektir ve TekLink uygulamasını kullanabileceksiniz."
+		session["flagText"] = "Email doğrulama aşaması, lütfen \""+email+"\" adlı mail adresinize gidip doğrulama bağlantısına tıklayınız (bağlantı geçerlilik süresi 30 dk). Ardından hesabınız aktifleşecektir ve TekLink uygulamasını kullanabileceksiniz."
 		return redirect(url_for("main"))
 
 
 	else:
 
-		return render_template("/register.html")
+		if session["flag"] != 99:
+
+			flag = session["flag"]
+			flagText = session["flagText"]
+
+			session["flag"] = 99
+
+			return render_template("/register.html", flag=flag, flagText=flagText)
+
+		else:
+
+			return render_template("/register.html")
+
 
 confirm_emailBluePrint = Blueprint('confirm_email', __name__,
                         template_folder='templates')
@@ -163,7 +210,7 @@ def confirm_email(token):
 
 		now = datetime.now()
 
-		new_final_time = datetime_object + timedelta(minutes=10)
+		new_final_time = datetime_object + timedelta(minutes=30)
 
 		if now>=new_final_time:
 

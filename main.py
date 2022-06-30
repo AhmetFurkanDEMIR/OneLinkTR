@@ -24,6 +24,14 @@ app.register_blueprint(deleteAppBluePrint)
 @app.route("/")
 def main():
 
+    try:
+
+        session["flag"]
+
+    except:
+
+        session["flag"]=99
+
     flag = None
 
     try:
@@ -38,24 +46,20 @@ def main():
 
         return redirect(url_for("myApps.myApps"))
 
-    try:
 
-        if session["flag"] != 99:
+    if session["flag"] != 99:
 
-            flag = session["flag"]
-            flagText = session["flagText"]
+        flag = session["flag"]
+        flagText = session["flagText"]
 
-            session["flag"] = 99
+        session["flag"] = 99
 
-            return render_template("/index.html", flag=flag, flagText=flagText)
+        return render_template("/index.html", flag=flag, flagText=flagText)
 
-        else:
-
-            return render_template("/index.html")
-
-    except:
+    else:
 
         return render_template("/index.html")
+
 
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -90,17 +94,26 @@ def login():
 
             if int(user_confirmed) == 0:
 
-                return render_template("/login.html", flag=2, flagText="Maalesef hesabınız doğrulanmış durumda değil, lütfen mail adresinizdeki linke tıklayarak hesabınızı doğrulayınız.")
+                session["flag"]=2
+                session["flagText"]="Maalesef hesabınız doğrulanmış durumda değil, lütfen mail adresinizdeki linke tıklayarak hesabınızı doğrulayınız."
+
+                return redirect(url_for("login"))
 
         except:
 
-            return render_template("/login.html", flag=2, flagText="Kullanıcı bulunamadı")
+            session["flag"]=2
+            session["flagText"]="Kullanıcı Bulunamadı"
+
+            return redirect(url_for("login"))
 
         password = request.form['pass']
 
         if sha256_crypt.verify(password, user_password) != True:
 
-            return render_template("/login.html", flag=2, flagText="Şifre hatalı")
+            session["flag"]=2
+            session["flagText"]="Şifre hatalı"
+
+            return redirect(url_for("login"))
 
         session["logged_in"] = True
         session["user_id"] = user_id
@@ -112,7 +125,19 @@ def login():
 
     else:
 
-        return render_template("/login.html", flag=77)
+        if session["flag"] != 99:
+
+            flag = session["flag"]
+            flagText = session["flagText"]
+
+            session["flag"] = 99
+
+            return render_template("/login.html", flag=flag, flagText=flagText)
+
+        else:
+
+            return render_template("/login.html")
+
 
 
 @app.route("/logout", methods=['GET', 'POST'])
@@ -153,6 +178,7 @@ def me():
 					session["flagText"] = "Şifre doğrulama başarısız, hesabınız silinemedi"
 
 					return redirect(url_for("main"))
+					
 
 				else:
 
@@ -170,44 +196,38 @@ def me():
 
 			pass
 
-		cursor.execute(
-        'SELECT * FROM TBL_Users WHERE user_id=%s and user_isdeleted=%s', (session["user_id"], 0,))
-		user = cursor.fetchall()
-
-		user_final = []
-
-		for i in user[0]:
-
-			user_final.append(i)
-
-		print(user_final)
-		user_final[3] = int(user_final[3])
-		del user_final[0]
-		del user_final[4]
-		del user_final[4]
-		del user_final[4]
-
 		ad = request.form['name']
 		soyad = request.form['surname']
 		password = request.form['password']
 		newPassword = request.form['newPassword']
 
-
-		if (len(str(ad))<3 or len(str(ad)) > 30) and (len(str(soyad))<3 or len(str(soyad)) > 30):
-
-			return render_template("/me.html", flag=2, flagText="Ad ve Soyad 3 karakterden küçük olamaz.", user_final=user_final)
-
-		if (len(str(newPassword)) < 8 or len(str(newPassword)) > 30) and (len(str(newPassword))!=0):
-
-			return render_template("/me.html", flag=2, flagText="Şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz.", user_final=user_final)
-
 		cursor.execute(
-        'SELECT user_password FROM TBL_Users WHERE user_id=%s and user_isdeleted=%s', (session["user_id"], 0,))
+		'SELECT user_password FROM TBL_Users WHERE user_id=%s and user_isdeleted=%s', (session["user_id"], 0,))
 		user_password = cursor.fetchall()[0][0]
 
 		if sha256_crypt.verify(password, user_password) != True:
 
-			return render_template("/me.html", flag=2, flagText="Şifre doğrulama başarısız", user_final=user_final)
+			session.clear()
+
+			session["flag"]=2
+			session["flagText"]="Şifre doğrulama başarısız."
+
+			return redirect(url_for("main"))
+
+
+		if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
+
+			session["flag"]=2
+			session["flagText"]="Ad ve Soyad 3 karakterden küçük ve 30 karakterden büyük olamaz."
+
+			return redirect(url_for("me"))
+
+		if (len(str(newPassword)) < 8 or len(str(newPassword)) > 30) and (len(str(newPassword))!=0):
+
+			session["flag"]=2
+			session["flagText"]="Yeni şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
+
+			return redirect(url_for("me"))
 
 		if len(str(newPassword))!=0:
 
@@ -222,24 +242,10 @@ def me():
 			(ad, soyad, session["user_id"],))
 			conn.commit()
 
-		cursor.execute(
-        'SELECT * FROM TBL_Users WHERE user_id=%s and user_isdeleted=%s', (session["user_id"], 0,))
-		user = cursor.fetchall()
+		session["flag"]=0
+		session["flagText"]="Profil güncelleme başarılı."
 
-		user_final = []
-
-		for i in user[0]:
-
-			user_final.append(i)
-
-
-		user_final[3] = int(user_final[3])
-		del user_final[0]
-		del user_final[4]
-		del user_final[4]
-		del user_final[4]
-
-		return render_template("/me.html", user_final=user_final, flag=0, flagText="Profil güncelleme başarılı.")
+		return redirect(url_for("me"))
 
 	else:
 
@@ -253,12 +259,20 @@ def me():
 
 			user_final.append(i)
 
-
 		user_final[3] = int(user_final[3])
 		del user_final[0]
 		del user_final[4]
 		del user_final[4]
 		del user_final[4]
+
+		if session["flag"] != 99:
+
+			flag = session["flag"]
+			flagText = session["flagText"]
+
+			session["flag"] = 99
+
+			return render_template("/me.html", user_final=user_final, flag=flag, flagText=flagText)
 
 		return render_template("/me.html", user_final=user_final)
 
@@ -267,7 +281,23 @@ def me():
 @login_required
 def create():
 
-    return render_template("/create.html")
+	cursor.execute('SELECT user_appcount FROM TBL_Users WHERE user_id=%s',(session["user_id"],))
+	count = cursor.fetchall()
+	count = count[0][0]
+
+	count = 2 - int(count)
+
+	if session["flag"] != 99:
+
+		flag = session["flag"]
+		flagText = session["flagText"]
+
+		session["flag"] = 99
+
+		return render_template("/create.html", count=count,flag=flag, flagText=flagText,)
+	
+	else:
+		return render_template("/create.html", count=count)
 
 
 @app.route("/<string:name>")
