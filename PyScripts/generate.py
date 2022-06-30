@@ -28,18 +28,24 @@ def generate():
 
 		appName = str(request.form['appName'])
 
-		notSTR="\"!'^+%&/()=?_-*\\,><;: "
+		if appName.isalnum()==False:
+
+			session["flag"]=2
+			session["flagText"]="Your application name must not contain character."
+
+			return redirect(url_for("myApps.myApps"))
+
+		notSTR="\"!'^+%&/()=?_-*\\,><;:.é£#$½¾\{\}[] "
 
 		for i in notSTR:
 
 			if str(i) in str(appName):
 
-				session["flag"] = 2
-				session["flagText"] = "Your application name must not contain \"{}\" character.".format(i)
+				session["flag"]=2
+				session["flagText"]="Your application name must not contain \"{}\" character.".format(i)
 
-				return redirect(url_for("create"))
+				return redirect(url_for("myApps.myApps"))
 
-				
 		if len(str(appName)) > 3 and len(str(appName)) < 30:
 
 			try:

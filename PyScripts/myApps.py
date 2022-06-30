@@ -37,7 +37,14 @@ def myApps():
 
         appName = request.form['appName']
 
-        notSTR="\"!'^+%&/()=?_-*\\,><;:"
+        if appName.isalnum()==False:
+
+            session["flag"]=2
+            session["flagText"]="Your application name must not contain character."
+
+            return redirect(url_for("myApps.myApps"))
+
+        notSTR="\"!'^+%&/()=?_-*\\,><;:.é£#$½¾\{\}[] "
 
         for i in notSTR:
 

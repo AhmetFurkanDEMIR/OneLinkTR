@@ -108,7 +108,9 @@ def register():
 
 			except:
 
-				cursor.execute('INSERT INTO TBL_Users(user_name, user_surname, user_phone, user_email, user_password, user_isdeleted, user_confirmed, user_countattack, user_appcount) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',(ad, soyad, tel, email, password, 0, 0, 0,0,))
+				cursor.execute(
+					'INSERT INTO TBL_Users(user_name, user_surname, user_phone, user_email, user_password, user_isdeleted, user_confirmed, user_countattack, user_appcount) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)',
+					(ad, soyad, tel, email, password, 0, 0, 0,0,))
 				conn.commit()
 
 			token = generate_confirmation_token(email)

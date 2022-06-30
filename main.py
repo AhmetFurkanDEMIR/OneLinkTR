@@ -312,8 +312,10 @@ def runLink(name):
 
     except:
 
-        # error hazirla
-        return render_template("/index.html", flag=77)
+        session["flag"]=1
+        session["flagText"]="İstenilen uygulama bulunamadı."
+
+        return redirect(url_for("main"))
 
     ios = myUrl
     android = myUrl
