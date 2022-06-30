@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+	<title></title>
+
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="static/styles/master.css">
+
+
+
+</head>
+
+<div class="my-bar bg-primary">
+	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/myApps">My Apps</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarNavAltMarkup">
+
+					<div class="navbar-nav">
+
+
+						<a class="nav-link active" aria-current="page" href="/create">Create App</a>
+
+					</div>
+
+					<div class="navbar-nav">
+
+						<a class="nav-link active" aria-current="page" href="/me">My Profile</a>
+
+					</div>
+
+
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+<div>
+
+	<div class="proje-box container">
+
+		<br></br>
+
+		{% if flag==0 %}
+
+
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Success!</strong> {{flagText}}
+
+			<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+		</div>
+
+		{% elif flag==1 %}
+
+		<div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+			<strong>Warning!</strong> {{flagText}}
+
+			<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+		</div>
+
+
+		{% elif flag==2 %}
+
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+			<strong>Error!</strong> {{flagText}}
+
+			<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+		</div>
+
+		{% else %}
+
+		{% endif %}
+
+		<form method="POST" action="/generate" enctype="multipart/form-data">
+
+			<h4 class="text-primary fw-bold text-center">Create App</h4>
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+
+					<span class="input-group-text" id="basic-addon3"><span class="iconify" data-icon="carbon:app"
+							style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" id="appName" name="appName" class="form-control" placeholder="Application Name"
+					maxlength=30 required="true">
+
+			</div>
+
+
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+
+					<span class="input-group-text" id="basic-addon3"><span class="iconify" data-icon="cib:app-store-ios"
+							style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" name="iosText" id="iosText" class="form-control" placeholder="https://IosLink.com"
+					aria-label="https://IosLink.com" aria-describedby="basic-addon1" maxlength=130 required="true">
+
+				<div class="input-group-text">
+
+					<input type="checkbox" id="iosRadio" name="iosRadio" value="true" Checked="checked"
+						aria-label="Checkbox for following text input">
+
+				</div>
+
+			</div>
+
+
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon3"><span class="iconify" data-icon="bxl:play-store"
+							style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" id="androidText" name="androidText" class="form-control"
+					placeholder="https://AndroidLink.com" aria-label="https://AndroidLink.com"
+					aria-describedby="basic-addon1" maxlength=130 required="true">
+
+				<div class="input-group-text">
+
+					<input type="checkbox" id="androidRadio" name="androidRadio" value="true" Checked="checked"
+						aria-label="Checkbox for following text input">
+
+				</div>
+
+			</div>
+
+
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon3"><span class="iconify"
+							data-icon="simple-icons:huawei" style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" id="huaweiText" name="huaweiText" class="form-control"
+					placeholder="https://huaweiLink.com" aria-label="https://huaweiLink.com"
+					aria-describedby="basic-addon1" maxlength=130 required="true">
+
+				<div class="input-group-text">
+
+					<input type="checkbox" id="huaweiRadio" name="huaweiRadio" value="true" Checked="checked"
+						aria-label="Checkbox for following text input">
+
+				</div>
+
+			</div>
+
+
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon3"><span class="iconify"
+							data-icon="foundation:social-windows" style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" id="windowsText" name="windowsText" class="form-control"
+					placeholder="https://WindowsLink.com" aria-label="https://WindowsLink.com"
+					aria-describedby="basic-addon1" maxlength=130 required="true">
+
+				<div class="input-group-text">
+
+					<input type="checkbox" id="windowsRadio" name="windowsRadio" value="true" Checked="checked"
+						aria-label="Checkbox for following text input">
+
+				</div>
+
+			</div>
+
+
+			<div class="input-group mb-3">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon3"><span class="iconify" data-icon="cib:ubuntu"
+							style="font-size:28px;"></span></span>
+				</div>
+
+				<input type="text" id="ubuntuText" name="ubuntuText" class="form-control"
+					placeholder="https://UbuntuLink.com" aria-label="https://UbuntuLink.com"
+					aria-describedby="basic-addon1" maxlength=130 required="true">
+
+				<div class="input-group-text">
+
+					<input type="checkbox" id="ubuntuRadio" name="ubuntuRadio" value="true" Checked="checked"
+						aria-label="Checkbox for following text input">
+
+				</div>
+
+			</div>
+
+			<button type="submit" class="btn btn-primary">Generate Link and QR code</button>
+
+		</form>
+
+
+	</div>
+
+
+	<script>
+
+		document.getElementById('iosRadio').onchange = function () {
+			document.getElementById('iosText').disabled = !this.checked;
+			document.getElementById('iosText').required = this.checked
+		};
+
+
+		document.getElementById('androidRadio').onchange = function () {
+			document.getElementById('androidText').disabled = !this.checked;
+			document.getElementById('androidText').required = this.checked
+		};
+
+		document.getElementById('huaweiRadio').onchange = function () {
+			document.getElementById('huaweiText').disabled = !this.checked;
+			document.getElementById('huaweiText').required = this.checked
+		};
+
+		document.getElementById('windowsRadio').onchange = function () {
+			document.getElementById('windowsText').disabled = !this.checked;
+			document.getElementById('windowsText').required = this.checked
+		};
+
+		document.getElementById('ubuntuRadio').onchange = function () {
+			document.getElementById('ubuntuText').disabled = !this.checked;
+			document.getElementById('ubuntuText').required = this.checked
+		};
+
+
+
+	</script>
+
+	<br></br>
+
+</html>
+
+
+{% include "includes/footer.html" %}

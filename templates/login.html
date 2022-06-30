@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="static/styles/master.css">
+
+
+</head>
+
+<div class="my-bar bg-primary">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Ana Sayfa</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+
+
+                        <a class="nav-link active" aria-current="page" href="/login">Giriş</a>
+                        <a class="nav-link active" aria-current="page" href="/register">Kayıt Ol</a>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+
+<br></br>
+
+<body>
+
+    <form method="POST" action="/login" enctype="multipart/form-data">
+
+        <div class="row g-0 justify-content-center padding-top-15 ">
+
+            <div class="col-xl-5 col-lg-6 col-md-8 col-xs-12">
+
+                <h4 class="text-primary fw-bold text-center">Login</h4>
+
+                {% if flag==0 %}
+
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Success!</strong> {{flagText}}
+
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+                </div>
+
+                {% elif flag==1 %}
+
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+                    <strong>Warning!</strong> {{flagText}}
+
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+                </div>
+
+
+                {% elif flag==2 %}
+
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+                    <strong>Error!</strong> {{flagText}}
+
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+                </div>
+
+                {% else %}
+
+                {% endif %}
+
+                <div class="padding-15">
+                    <h5>Email</h5>
+                    <input class="form-control" id="txtAd" type="text" name="email" />
+                </div>
+
+                <div class="padding-15">
+                    <h5>Password</h5>
+                    <input class="form-control" id="txtAd" type="password" name="pass" />
+                    <a href="/replacePass" style="color:#370cd2;">I forgot my password.</a>
+                </div>
+
+                <div class="padding-15">
+                    <input class="form-control btn-primary fw-bold" id="Button1" type="submit" value="Giriş Yap" />
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </form>
+
+    <br></br>
+
+
+</body>
+
+</html>
+
+{% include "includes/footer.html" %}

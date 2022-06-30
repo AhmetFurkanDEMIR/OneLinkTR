@@ -1,0 +1,108 @@
+﻿.padding-15 {
+    padding: 15px;
+}
+
+.padding-left-10 {
+    padding-left: 10px;
+}
+
+.padding-5 {
+    padding: 5px;
+}
+
+.padding-top-15 {
+    padding-top: 15px;
+}
+
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+margin-left-15 {
+    margin-left: 15px;
+}
+
+
+
+.display-flex {
+    display: flex;
+}
+
+.vertical-center {
+    display: flex;
+    align-items: center;
+}
+
+.color-white {
+    color: white !important;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.my-bar {
+    margin-bottom: 30px;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+
+    z-index:4; /*Add this*/
+}
+
+/* RESET RULES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+:root {
+  --white: #fff;
+  --divider: lightgrey;
+  --body: #f5f7f8;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+}
+
+ul {
+  list-style: none;
+  z-index: -1;
+  
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+}
+
+body {
+  background: white;
+  font-size: 16px;
+  font-family: sans-serif;
+  padding-top: 40px;
+}
+
+.proje {
+    background-color: #ebebeb;
+    margin-top: 30px;
+    padding: 15px;
+    border: 1px solid #ebebeb;
+    border-radius: 10px;
+}
+
+.site-footer {
+    background: rgb(0, 102, 255);
+    position: fixed;
+    padding: 0px 0px 0px 0px;
+    bottom: 0;
+    width: 100%;
+    z-index:3;
+    
+
+
+}
+
+

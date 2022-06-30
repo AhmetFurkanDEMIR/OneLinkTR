@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8" />
+	<title></title>
+
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="static/styles/master.css">
+
+
+
+
+</head>
+
+<div class="my-bar bg-primary">
+	<div class="container">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="/myApps">My Apps</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+					data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarNavAltMarkup">
+
+					<div class="navbar-nav">
+
+
+						<a class="nav-link active" aria-current="page" href="/create">Create App</a>
+
+					</div>
+
+					<div class="navbar-nav">
+
+						<a class="nav-link active" aria-current="page" href="/me">My Profile</a>
+
+					</div>
+
+
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+
+<br><br>
+
+<div class="proje-box container">
+
+	{% if flag==0 %}
+
+
+	<div class="alert alert-success alert-dismissible fade show" role="alert">
+		<strong>Success!</strong> {{flagText}}
+
+		<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+	</div>
+
+	{% elif flag==1 %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+
+		<strong>Warning!</strong> {{flagText}}
+
+		<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+	</div>
+
+
+	{% elif flag==2 %}
+
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+		<strong>Error!</strong> {{flagText}}
+
+		<button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+
+	</div>
+
+	{% else %}
+
+	{% endif %}
+
+	<h4 class="margin-top-15">My Apps</h4>
+
+	{% for app in apps %}
+
+	<div class="proje">
+
+		<div class="row g-0">
+
+			<div class=" ">
+				<div><label class="fw-bold">App Name :</label> {{app[0][2]}}</div>
+				<div><label class="fw-bold">App Link :</label> <a href="{{myUrl}}{{app[0][2]}}"
+						target="_self">{{myUrl}}{{app[0][2]}}</a></div>
+
+			</div>
+
+
+			<div class="row g-0">
+				<div class="display-flex ">
+
+					<div class="fw-bold padding-5 margin-top-15 ">
+						<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#viewQR{{app[1][4][0]}}">
+							QR Code
+						</a>
+						<a class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#ProjeDetayModal">
+							Update Changes
+						</a>
+						<a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#appDelete{{app[1][4][0]}}">
+							Delete App
+						</a>
+					</div>
+				</div>
+
+				<div class="padding-top-15">
+					<hr>
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="carbon:app" style="font-size:28px;"></span></span>
+						</div>
+
+						<input type="text" id="appName" name="appName" class="form-control"
+							placeholder="Application Name" value="{{app[0][2]}}" maxlength=30 required="true">
+
+					</div>
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="cib:app-store-ios" style="font-size:28px;"></span></span>
+						</div>
+
+						{% if app[1][0][3]!="-" %}
+
+						<input type="text" name="iosText" id="iosText{{app[1][0][0]}}" class="form-control"
+							placeholder="https://IosLink.com" value="{{app[1][0][3]}}" aria-label="https://IosLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="iosRadio{{app[1][0][0]}}" name="iosRadio" value="true"
+								Checked="checked" aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% else %}
+
+						<input type="text" name="iosText" id="iosText{{app[1][0][0]}}" class="form-control"
+							placeholder="https://IosLink.com" aria-label="https://IosLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="false" disabled="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="iosRadio{{app[1][0][0]}}" name="iosRadio" value="true"
+								aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% endif %}
+
+					</div>
+
+
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="bxl:play-store" style="font-size:28px;"></span></span>
+						</div>
+
+						{% if app[1][1][3]!="-" %}
+
+						<input type="text" id="androidText{{app[1][1][0]}}" name="androidText" class="form-control"
+							placeholder="https://AndroidLink.com" value="{{app[1][1][3]}}"
+							aria-label="https://AndroidLink.com" aria-describedby="basic-addon1" maxlength=130
+							required="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="androidRadio{{app[1][1][0]}}" name="androidRadio" value="true"
+								Checked="checked" aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% else %}
+
+						<input type="text" id="androidText{{app[1][1][0]}}" name="androidText" class="form-control"
+							placeholder="https://AndroidLink.com" aria-label="https://AndroidLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="false" disabled="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="androidRadio{{app[1][1][0]}}" name="androidRadio" value="true"
+								aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% endif %}
+
+					</div>
+
+
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="simple-icons:huawei" style="font-size:28px;"></span></span>
+						</div>
+
+						{% if app[1][2][3]!="-" %}
+
+						<input type="text" id="huaweiText{{app[1][2][0]}}" name="huaweiText" class="form-control"
+							placeholder="https://huaweiLink.com" value="{{app[1][2][3]}}"
+							aria-label="https://huaweiLink.com" aria-describedby="basic-addon1" maxlength=130
+							required="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="huaweiRadio{{app[1][2][0]}}" name="huaweiRadio" value="true"
+								Checked="checked" aria-label="Checkbox for following text input">
+
+						</div>
+						{% else %}
+
+						<input type="text" id="huaweiText{{app[1][2][0]}}" name="huaweiText" class="form-control"
+							placeholder="https://huaweiLink.com" aria-label="https://huaweiLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="false" disabled="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="huaweiRadio{{app[1][2][0]}}" name="huaweiRadio" value="true"
+								aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% endif %}
+
+					</div>
+
+
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="foundation:social-windows" style="font-size:28px;"></span></span>
+						</div>
+
+						{% if app[1][3][3]!="-" %}
+
+						<input type="text" id="windowsText{{app[1][3][0]}}" name="windowsText" class="form-control"
+							placeholder="https://WindowsLink.com" value="{{app[1][3][3]}}"
+							aria-label="https://WindowsLink.com" aria-describedby="basic-addon1" maxlength=130
+							required="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="windowsRadio{{app[1][3][0]}}" name="windowsRadio" value="true"
+								Checked="checked" aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% else %}
+
+						<input type="text" id="windowsText{{app[1][3][0]}}" name="windowsText" class="form-control"
+							placeholder="https://WindowsLink.com" aria-label="https://WindowsLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="false" disabled="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="windowsRadio{{app[1][3][0]}}" name="windowsRadio" value="true"
+								aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% endif %}
+
+					</div>
+
+
+					<div class="input-group mb-3">
+
+						<div class="input-group-prepend">
+							<span class="input-group-text" id="basic-addon3"><span class="iconify"
+									data-icon="cib:ubuntu" style="font-size:28px;"></span></span>
+						</div>
+
+						{% if app[1][4][3]!="-" %}
+
+						<input type="text" id="ubuntuText{{app[1][4][0]}}" name="ubuntuText" class="form-control"
+							placeholder="https://UbuntuLink.com" value="{{app[1][4][3]}}"
+							aria-label="https://UbuntuLink.com" aria-describedby="basic-addon1" maxlength=130
+							required="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="ubuntuRadio{{app[1][4][0]}}" name="ubuntuRadio" value="true"
+								Checked="checked" aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% else %}
+
+						<input type="text" id="ubuntuText{{app[1][4][0]}}" name="ubuntuText" class="form-control"
+							placeholder="https://UbuntuLink.com" aria-label="https://UbuntuLink.com"
+							aria-describedby="basic-addon1" maxlength=130 required="false" disabled="true">
+
+						<div class="input-group-text">
+
+							<input type="checkbox" id="ubuntuRadio{{app[1][4][0]}}" name="ubuntuRadio" value="true"
+								aria-label="Checkbox for following text input">
+
+						</div>
+
+						{% endif %}
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+
+	<script>
+
+		document.getElementById('iosRadio{{app[1][0][0]}}').onchange = function () {
+			document.getElementById('iosText{{app[1][0][0]}}').disabled = !this.checked;
+			document.getElementById('iosText{{app[1][0][0]}}').required = this.checked
+		};
+
+
+		document.getElementById('androidRadio{{app[1][1][0]}}').onchange = function () {
+			document.getElementById('androidText{{app[1][1][0]}}').disabled = !this.checked;
+			document.getElementById('androidText{{app[1][1][0]}}').required = this.checked
+		};
+
+		document.getElementById('huaweiRadio{{app[1][2][0]}}').onchange = function () {
+			document.getElementById('huaweiText{{app[1][2][0]}}').disabled = !this.checked;
+			document.getElementById('huaweiText{{app[1][3][0]}}').required = this.checked
+		};
+
+		document.getElementById('windowsRadio{{app[1][3][0]}}').onchange = function () {
+			document.getElementById('windowsText{{app[1][3][0]}}').disabled = !this.checked;
+			document.getElementById('windowsText{{app[1][3][0]}}').required = this.checked
+		};
+
+		document.getElementById('ubuntuRadio{{app[1][4][0]}}').onchange = function () {
+			document.getElementById('ubuntuText{{app[1][4][0]}}').disabled = !this.checked;
+			document.getElementById('ubuntuText{{app[1][4][0]}}').required = this.checked
+		};
+
+
+
+	</script>
+
+	<div class="modal" id="viewQR{{app[1][4][0]}}" tabindex="-1" aria-labelledby="viewQR" aria-hidden="true">
+
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+
+			<div class="modal-content">
+
+
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">{{app[0][2]}} QR Code View</h5>
+
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+				<div class="padding-15">
+					<center><img src="static/QrCodes/{{app[0][2]}}.png" alt="QR Code" class="center"></center>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<form method="POST" action="/deleteApp" enctype="multipart/form-data">
+
+		<div class="modal fade" id="appDelete{{app[1][4][0]}}" tabindex="-1" aria-labelledby="AccontDelete"
+			aria-hidden="true">
+
+			<div class="modal-dialog modal-lg modal-dialog-scrollable">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h4 class="modal-title" id="exampleModalLabel">Delete My App ({{app[0][2]}})</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+
+					<div class="padding-15">
+						<h6>After this process, your app will be deleted.</h6>
+
+						<h6>Your app and the links under your app will be deleted, then a new application can be created
+							with this
+							application name.</h6>
+					</div>
+
+
+					<div class="modal-footer">
+						<input type="hidden" name="deleteAppInput" id="deleteAppInput" value={{app[0][0]}}>
+						<input type="hidden" name="appNameInput" id="appNameInput" value={{app[0][2]}}>
+						<input class="form-control btn btn-danger fw-bold" id="Button1" type="submit"
+							value="Delete My App !!" />
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+
+
+	{% endfor %}
+
+</div>
+
+<br></br>
+<br></br>
+<br></br>
+
+
+</html>
+
+{% include "includes/footer.html" %}
