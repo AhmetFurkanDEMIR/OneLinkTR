@@ -42,21 +42,21 @@ def register():
 			if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
 
 				session["flag"] = 2
-				session["flagText"] = "Ad ve Soyad 3 karakterden küçük ve 30 karakterden büyük olamaz."
+				session["flagText"] = "Name and Surname cannot be less than 3 characters and larger than 30 characters."
 
 				return redirect(url_for("register.register"))
 
 			if len(str(tel)) != 10:
 
 				session["flag"] = 2
-				session["flagText"] = "telefon numarasını 10 haneli olmalıdır"
+				session["flagText"] = "phone number must be ten digits without leading \"0\" and no spaces"
 
 				return redirect(url_for("register.register"))
 
 			if (len(str(password)) < 8 or len(str(password)) > 30) or (len(str(passworda)) < 8 or len(str(passworda)) > 30):
 
 				session["flag"] = 2
-				session["flagText"] = "Şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
+				session["flagText"] = "Your password must be between 8 and 30 characters, please try again."
 
 				return redirect(url_for("register.register"))
 
@@ -64,7 +64,7 @@ def register():
 			if ("@gmail.com" in email) == False:
 
 				session["flag"] = 2
-				session["flagText"] = "Projemiz henüz beta sürümünde olduğu için yanlızca gmail uzantılı google maillerine izin veriyoruz."
+				session["flagText"] = "Since our project is still in beta, we only allow google mails with gmail extensions."
 
 				return redirect(url_for("register.register"))
 
@@ -102,7 +102,7 @@ def register():
 				user_id = user[0][0]
 
 				session["flag"] = 2
-				session["flagText"] = "Bu Email veya Telefon numarası daha önceden kullanılmış."
+				session["flagText"] = "This Email or Phone number has been used before, please try again."
 
 				return redirect(url_for("register.register"))
 
@@ -119,10 +119,10 @@ def register():
 
 			strHtml = """
 			
-<p>Welcome! Thanks for signing up. Please follow this link to activate your account:</p>
-<p><a href="{}">{}</a></p>
+<p>Welcome! Thanks for signing up. Please follow this link to activate your account.</p>
+<p>Verification link (The validity period of the link is 30 minutes): <a href="{}">{}</a></p>
 <br>
-<p>Cheers!</p>
+<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
 	
 """.format(token, token)
 
@@ -147,12 +147,12 @@ def register():
 		except:
 
 			session["flag"] = 2
-			session["flagText"] = "Kayıt sırasında bir hata ile karşılaşıldı, lütfen tekrar deneyiniz."
+			session["flagText"] = "An error was encountered during registration, please try again."
 
 			return redirect(url_for("register.register"))
 
 		session["flag"] = 0
-		session["flagText"] = "Email doğrulama aşaması, lütfen \""+email+"\" adlı mail adresinize gidip doğrulama bağlantısına tıklayınız (bağlantı geçerlilik süresi 30 dk). Ardından hesabınız aktifleşecektir ve TekLink uygulamasını kullanabileceksiniz."
+		session["flagText"] = "Email verification step, please go to your \""+email+"\" email address and click on the verification link (connection validity 30 minutes). Then your account will be activated and you will be able to use TekLink application."
 		return redirect(url_for("main"))
 
 
@@ -200,7 +200,7 @@ def confirm_email(token):
 		if emailTemp==False:
 
 			session["flag"] = 2
-			session["flagText"] = "doğrulama aşamasında bir hata oluştu, lütfen tekrar deneyiniz."
+			session["flagText"] = "An error occurred during the validation phase, please try again."
 		
 			return redirect(url_for("main"))
 
@@ -217,7 +217,7 @@ def confirm_email(token):
 		if now>=new_final_time:
 
 			session["flag"] = 2
-			session["flagText"] = "Bağlantının süresi doldu..."
+			session["flagText"] = "The link has expired..."
 		
 			return redirect(url_for("main"))
 
@@ -230,7 +230,7 @@ def confirm_email(token):
 		if user_confirmed==1:
 
 			session["flag"] = 1
-			session["flagText"] = "Hesabınız zaten doğrulanmış durumda."
+			session["flagText"] = "Your account is already verified."
 		
 			return redirect(url_for("main"))
 
@@ -240,14 +240,14 @@ def confirm_email(token):
 
 
 		session["flag"] = 0
-		session["flagText"] = "Mail doğrulama başarılı, artık hesabınıza giriş yapabilirsiniz."
+		session["flagText"] = "Email verification is successful, you can now log in to your account."
 		return redirect(url_for("main"))
 
 
 	except:
 
 		session["flag"] = 2
-		session["flagText"] = "doğrulama aşamasında bir hata oluştu, lütfen tekrar deneyiniz."
+		session["flagText"] = "An error occurred during the validation phase, please try again."
 		
 		return redirect(url_for("main"))
         

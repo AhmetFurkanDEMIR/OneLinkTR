@@ -95,14 +95,14 @@ def login():
             if int(user_confirmed) == 0:
 
                 session["flag"]=2
-                session["flagText"]="Maalesef hesabınız doğrulanmış durumda değil, lütfen mail adresinizdeki linke tıklayarak hesabınızı doğrulayınız."
+                session["flagText"]="Sorry, your account is not verified, please verify your account by clicking the link in your e-mail address."
 
                 return redirect(url_for("login"))
 
         except:
 
             session["flag"]=2
-            session["flagText"]="Kullanıcı Bulunamadı"
+            session["flagText"]="The user with this email is not found."
 
             return redirect(url_for("login"))
 
@@ -111,7 +111,7 @@ def login():
         if sha256_crypt.verify(password, user_password) != True:
 
             session["flag"]=2
-            session["flagText"]="Şifre hatalı"
+            session["flagText"]="Incorrect Password."
 
             return redirect(url_for("login"))
 
@@ -119,7 +119,7 @@ def login():
         session["user_id"] = user_id
 
         session["flag"] = 0
-        session["flagText"] = "Giriş Başarılı"
+        session["flagText"] = "Login successful."
 
         return redirect(url_for("myApps.myApps"))
 
@@ -147,7 +147,7 @@ def logout():
 	session.clear()
 
 	session["flag"] = 0
-	session["flagText"] = "Çıkış Başarılı"
+	session["flagText"] = "Exit Successful."
 
 	return redirect(url_for("main"))
 
@@ -175,7 +175,7 @@ def me():
 					session.clear()
 
 					session["flag"] = 2
-					session["flagText"] = "Şifre doğrulama başarısız, hesabınız silinemedi"
+					session["flagText"] = "Password verification failed, your account could not be deleted."
 
 					return redirect(url_for("main"))
 					
@@ -189,7 +189,7 @@ def me():
 					session.clear()
 
 					session["flag"] = 1
-					session["flagText"] = "Hesabınız Başarıyla Silinmiştir...."
+					session["flagText"] = "Your Account Has Been Deleted Successfully...."
 
 					return redirect(url_for("main"))
 		except:
@@ -210,7 +210,7 @@ def me():
 			session.clear()
 
 			session["flag"]=2
-			session["flagText"]="Şifre doğrulama başarısız."
+			session["flagText"]="Password verification failed."
 
 			return redirect(url_for("main"))
 
@@ -218,14 +218,14 @@ def me():
 		if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
 
 			session["flag"]=2
-			session["flagText"]="Ad ve Soyad 3 karakterden küçük ve 30 karakterden büyük olamaz."
+			session["flagText"]="Name and Surname cannot be less than 3 characters and larger than 30 characters."
 
 			return redirect(url_for("me"))
 
 		if (len(str(newPassword)) < 8 or len(str(newPassword)) > 30) and (len(str(newPassword))!=0):
 
 			session["flag"]=2
-			session["flagText"]="Yeni şifreniz 8 ila 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
+			session["flagText"]="Your new password must be between 8 and 30 characters, please try again."
 
 			return redirect(url_for("me"))
 
@@ -243,7 +243,7 @@ def me():
 			conn.commit()
 
 		session["flag"]=0
-		session["flagText"]="Profil güncelleme başarılı."
+		session["flagText"]="Profile update successful."
 
 		return redirect(url_for("me"))
 
@@ -313,7 +313,7 @@ def runLink(name):
     except:
 
         session["flag"]=1
-        session["flagText"]="İstenilen uygulama bulunamadı."
+        session["flagText"]="The requested application was not found."
 
         return redirect(url_for("main"))
 

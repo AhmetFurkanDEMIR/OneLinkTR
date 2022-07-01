@@ -31,7 +31,7 @@ def generate():
 		if appName.isalnum()==False:
 
 			session["flag"]=2
-			session["flagText"]="Your application name must not contain character."
+			session["flagText"]="Your application name must not contain non-alphanumeric characters."
 
 			return redirect(url_for("myApps.myApps"))
 
@@ -57,7 +57,7 @@ def generate():
 				if App_id!=None or len(App_id)!=0:
 
 					session["flag"] = 2
-					session["flagText"] = "This app name has been taken by someone else."
+					session["flagText"] = "This app name is being used by someone else, please try another app name."
 
 					return redirect(url_for("create"))
 
@@ -74,7 +74,7 @@ def generate():
 				if len(apple) < 3 or len(apple) >130 :
 
 					session["flag"] = 2
-					session["flagText"] = "link size boyutu 3 ile 130 karakter arasında olmalıdır."
+					session["flagText"] = "The link length must be between 3 and 130 characters."
 
 					return redirect(url_for("create"))
 					
@@ -84,7 +84,7 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "lütfen linklerinizde http:// veya https:// protokollerini belirtiniz"
+					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
 
 					return redirect(url_for("create"))
 				
@@ -101,7 +101,7 @@ def generate():
 				if len(android) < 3 or len(android) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "link size boyutu 3 ile 130 karakter arasında olmalıdır."
+					session["flagText"] = "The link length must be between 3 and 130 characters."
 
 					return redirect(url_for("create"))
 
@@ -112,7 +112,7 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "lütfen linklerinizde http:// veya https:// protokollerini belirtiniz"
+					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
 
 					return redirect(url_for("create"))
 
@@ -129,7 +129,7 @@ def generate():
 				if len(huawei) < 3 or len(huawei) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "link size boyutu 3 ile 130 karakter arasında olmalıdır."
+					session["flagText"] = "The link length must be between 3 and 130 characters."
 
 					return redirect(url_for("create"))
 
@@ -140,7 +140,7 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "lütfen linklerinizde http:// veya https:// protokollerini belirtiniz"
+					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
 
 					return redirect(url_for("create"))
 
@@ -157,7 +157,7 @@ def generate():
 				if len(windows) < 3 or len(windows) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "link size boyutu 3 ile 130 karakter arasında olmalıdır."
+					session["flagText"] = "The link length must be between 3 and 130 characters."
 
 					return redirect(url_for("create"))
 
@@ -168,7 +168,7 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "lütfen linklerinizde http:// veya https:// protokollerini belirtiniz"
+					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
 
 					return redirect(url_for("create"))
 
@@ -186,7 +186,7 @@ def generate():
 				if len(ubuntu) < 3 or len(ubuntu) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "link size boyutu 3 ile 130 karakter arasında olmalıdır."
+					session["flagText"] = "The link length must be between 3 and 130 characters."
 
 					return redirect(url_for("create"))
 
@@ -196,7 +196,7 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "lütfen linklerinizde http:// veya https:// protokollerini belirtiniz"
+					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
 
 					return redirect(url_for("create"))
 
@@ -318,7 +318,7 @@ def generate():
 		else:
 
 			session["flag"] = 2
-			session["flagText"] = "App title > 3 and App title <30"
+			session["flagText"] = "The application name must be between 3 and 30 characters."
 
 			return redirect(url_for("create"))
 

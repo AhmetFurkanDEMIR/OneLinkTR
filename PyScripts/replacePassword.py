@@ -54,7 +54,7 @@ def replacePass():
                 conn.commit()
 
                 session["flag"] = 2
-                session["flagText"] = "Mail sunucumuzda çok fazla işlem yaptığınız için saldırı olarak algıladık. Hesabınız devre dışı bırakılmıştır."
+                session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
                 return redirect(url_for("main"))
 
 
@@ -72,10 +72,10 @@ def replacePass():
 
                 strHtml = """
                 
-<p>Şifre Sıfırlama Bağlantısı:</p>
-<p><a href="{}">{}</a></p>
+<p>Password Reset Link.</p>
+<p>Link (The validity period of the connection is 30 minutes) : <a href="{}">{}</a></p>
 <br>
-<p>Cheers!</p>
+<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
         
     """.format(token, token)
 
@@ -98,20 +98,20 @@ def replacePass():
                     server.sendmail(gonderenMail, gonderilenMail, yazi)
 
                 session["flag"] = 0
-                session["flagText"] = "Şifre yenileme bağlantısı gönderildi, lütfen mail kutunuzu kontrol ediniz (bağlantı 30 dk geçerlilik süresine sahip)"
+                session["flagText"] = "Password reset link has been sent, please check your mailbox (link is valid for 30 minutes)"
                 return redirect(url_for("main"))
 
             except:
 
                 session["flag"] = 2
-                session["flagText"] = "Bir hata oluştu, lütfen tekrar deneyiniz."
+                session["flagText"] = "An error has occurred, please try again."
                 return redirect(url_for("replacePass.replacePass"))
 
 
         except:
 
             session["flag"] = 2
-            session["flagText"] = "Bu email adresine sahip kayıt bulunamadı."
+            session["flagText"] = "No user found with this email address."
             return redirect(url_for("replacePass.replacePass"))
 
 
@@ -155,7 +155,7 @@ def resetPass(token):
         if emailTemp==False:
 
             session["flag"] = 2
-            session["flagText"] = "Şifre yenilemede bir hata oluştu, lütfen tekrar deneyiniz."
+            session["flagText"] = "There was an error resetting the password, please try again."
 		
             return redirect(url_for("main"))
 
@@ -172,7 +172,7 @@ def resetPass(token):
         if now>=new_final_time:
 
             session["flag"] = 2
-            session["flagText"] = "Bağlantının süresi doldu..."
+            session["flagText"] = "The link has expired..."
 		
             return redirect(url_for("main"))
 
@@ -189,7 +189,7 @@ def resetPass(token):
             conn.commit()
 
             session["flag"] = 2
-            session["flagText"] = "Mail sunucumuzda çok fazla işlem yaptığınız için saldırı olarak algıladık. Hesabınız devre dışı bırakılmıştır."
+            session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
             
             return redirect(url_for("main"))
 
@@ -218,10 +218,9 @@ def resetPass(token):
 
         strHtml = """
                 
-<p>Yeni Şifre:</p>
-<p>{}</p>
+<p>New Password: {}</p>
 <br>
-<p>Cheers!</p>
+<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
         
     """.format(password)
 
@@ -250,12 +249,12 @@ def resetPass(token):
         conn.commit()
 
         session["flag"] = 0
-        session["flagText"] = "Mail doğrulama başarılı, yeni şifreniz mail adresinize gönderilmiştir, bu şifre ile giriş yapıp profilinizden mevcut şifreyi değiştirebilirsiniz."
+        session["flagText"] = "Mail verification is successful, your new password has been sent to your e-mail address, you can log in with this password and change the current password from your profile."
         return redirect(url_for("main"))
 
     except:
 
         session["flag"] = 2
-        session["flagText"] = "Şifre yenilemede bir hata oluştu, lütfen tekrar deneyiniz."
+        session["flagText"] = "There was an error resetting the password, please try again."
 		
         return redirect(url_for("main"))
