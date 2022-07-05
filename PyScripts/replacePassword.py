@@ -1,7 +1,6 @@
 from PyScripts.tools import *
 from flask import Blueprint
-import socket
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
+from flask import render_template, request, redirect, url_for
 import smtplib, ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -75,15 +74,15 @@ def replacePass():
 <p>Password Reset Link.</p>
 <p>Link (The validity period of the connection is 30 minutes) : <a href="{}">{}</a></p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
+<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
         
     """.format(token, token)
 
                 konu = "Password Reset Link"
                 ileti = strHtml
-                gonderenMail = 'softforrange@yandex.com'
+                gonderenMail = MyEmail
                 gonderilenMail = email
-                sifre = sender_pass = 'sfr06580658'
+                sifre = MyEmailPass
                 message = MIMEMultipart()
                 message["From"] = gonderenMail
                 message["To"] = gonderilenMail
@@ -98,7 +97,7 @@ def replacePass():
                     server.sendmail(gonderenMail, gonderilenMail, yazi)
 
                 session["flag"] = 0
-                session["flagText"] = "Password reset link has been sent, please check your mailbox (link is valid for 30 minutes)"
+                session["flagText"] = "Password reset link has been sent, please check your mailbox. The link may be delayed, please wait. (link is valid for 30 minutes)"
                 return redirect(url_for("main"))
 
             except:
@@ -124,11 +123,11 @@ def replacePass():
 
             session["flag"] = 99
 
-            return render_template("/PasswordSendMail.html", flag=flag, flagText=flagText)
+            return render_template("/PasswordSendMail.html", flag=flag, flagText=flagText, language=session["language"])
 
         else:
 
-            return render_template("/PasswordSendMail.html")
+            return render_template("/PasswordSendMail.html", language=session["language"])
 
 
 @resetPassBluePrint.route("/resetPass/<token>",methods = ['GET', 'POST'])
@@ -220,15 +219,15 @@ def resetPass(token):
                 
 <p>New Password: {}</p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
+<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
         
     """.format(password)
 
         konu = "New Password"
         ileti = strHtml
-        gonderenMail = 'softforrange@yandex.com'
+        gonderenMail = MyEmail
         gonderilenMail = email
-        sifre = sender_pass = 'sfr06580658'
+        sifre = MyEmailPass
         message = MIMEMultipart()
         message["From"] = gonderenMail
         message["To"] = gonderilenMail

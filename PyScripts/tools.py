@@ -1,21 +1,40 @@
+from glob import glob
 import psycopg2
-import socket
 from functools import wraps
 from flask import session, redirect, url_for
 
+global ServerIp
+global ServerPort
+
+ServerIp = "0.0.0.0"
+ServerPort = 5000
+
 global myUrl
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.connect(("8.8.8.8", 80))
-myIp = s.getsockname()[0]
+myIp = "192.168.1.10"
+myUrl = "http://{}:{}/".format(str(myIp), str(ServerPort))
 
-myUrl = "http://{}:5600/".format(str(myIp))
+global MyEmail
+global MyEmailPass
+MyEmail = "softforrange@yandex.com"
+MyEmailPass = "sfr06580658"
 
+# docker-database connect
+
+conn = psycopg2.connect(
+    host="db-postgres",
+    database="postgres",
+    port="5432",
+    user="postgres",
+    password="123456789Zz.")
+
+"""
 conn = psycopg2.connect(
     host="localhost",
     database="teklink",
     port="5432",
     user="postgres",
     password="123456789Zz.")
+"""
 
 cursor = conn.cursor()
 

@@ -9,11 +9,11 @@
 
     {% if language==0 %}
 
-    <title>OneLink</title>
+    <title>OneLink | My Apps</title>
 
     {% else %}
 
-    <title>TekLink</title>
+    <title>TekLink | Uygulamalarım</title>
 
     {% endif %}
 
@@ -47,8 +47,15 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
 
-                <a class="navbar-brand" href="/"><img class="ikon" src="static/img/TeklinkDark.png" width="auto"
-                        height="%100"></a>
+                {% if language==0 %}
+
+                <a class="navbar-brand" href="/myApps">My Apps</a>
+
+                {% else %}
+
+                <a class="navbar-brand" href="/myApps">Uygulamalarım</a>
+
+                {% endif %}
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
@@ -56,28 +63,25 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" style="justify-content: space-between;" id="navbarNavAltMarkup">
+
                     <div class="navbar-nav">
 
                         {% if language==0 %}
 
-                        <a class="nav-link active" aria-current="page" href="/login">Login</a>
-                        <a class="nav-link active" aria-current="page" href="/register">Register</a>
-
+                        <a class="nav-link active" aria-current="page" href="/create">Create App</a>
 
                         {% else %}
 
-                        <a class="nav-link active" aria-current="page" href="/login">Giriş</a>
-                        <a class="nav-link active" aria-current="page" href="/register">Kayıt Ol</a>
-
+                        <a class="nav-link active" aria-current="page" href="/create">Uygulama Oluştur</a>
 
                         {% endif %}
 
-
                     </div>
-
                     <div class="navbar-nav">
 
                         {% if language==0 %}
+
+                        <a class="nav-link active" aria-current="page" href="/me">My Profile</a>
 
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -92,6 +96,8 @@
                         </div>
 
                         {% else %}
+
+                        <a class="nav-link active" aria-current="page" href="/me">Profilim</a>
 
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -109,16 +115,14 @@
 
                     </div>
 
+
                 </div>
             </div>
         </nav>
     </div>
 </div>
 
-
 <br></br>
-
-
 
 
 <section class="banner">
@@ -133,7 +137,9 @@
     </style>
 
     <div class="container">
+
         {% if flag==0 %}
+
 
         <div class="alert alert-success alert-dismissible fade show" role="alert">
 
@@ -191,6 +197,7 @@
         </div>
 
         {% else %}
+
         {% endif %}
         <div class="row">
 
@@ -202,7 +209,7 @@
 
                 <div class="col-4 text-center olustur">
 
-                    <a href="/register"><img class="ikon" src="static/img/create.png" width="auto" height="%100"></a>
+                    <a href="/create"><img class="ikon" src="static/img/create.png"></a>
 
                 </div>
 
@@ -214,7 +221,7 @@
 
                 <div class="col-4 text-center olustur">
 
-                    <a href="/register"><img class="ikon" src="static/img/giris.png" width="auto" height="%100"></a>
+                    <a href="/create"><img class="ikon" src="static/img/giris.png"></a>
 
                 </div>
 

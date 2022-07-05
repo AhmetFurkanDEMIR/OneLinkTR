@@ -1,5 +1,4 @@
-from re import template
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from flask import Blueprint
 from PyScripts.tools import *
 import os
@@ -30,17 +29,46 @@ def myApps():
         except:
 
             session["flag"]=2
-            session["flagText"]="System Error, changes could not be saved"
+
+            if session["language"]==0:
+
+                session["flagText"]="System Error, changes could not be saved."
+
+            else:
+                session["flagText"]="Sistem Hatası, değişiklikler kaydedilemedi."
 
             return redirect(url_for("myApps.myApps"))
 
 
         appName = request.form['appName']
 
+        blackList = ["login", "register", "home", "replacePass", "myApps", "create", "generate", "me", "tr", "en", "confirm", "resetPass", "logout","demir", "demirai", "sfr", "softforrange"]
+
+        for i in blackList:
+
+            if appName.lower()==i.lower():
+
+                session["flag"]=2
+
+                if session["language"]==0:
+
+                    session["flagText"]="You can't get this app name."
+
+                else:
+                    session["flagText"]="Bu uygulama adını alamazsınız."
+
+                return redirect(url_for("myApps.myApps"))
+
         if appName.isalnum()==False:
 
             session["flag"]=2
-            session["flagText"]="Your application name must not contain non-alphanumeric characters."
+
+            if session["language"]==0:
+
+                session["flagText"]="Your application name must not contain non-alphanumeric characters."
+
+            else:
+                session["flagText"]="Uygulama adınız alfanumerik olmayan karakterler içermemelidir."
 
             return redirect(url_for("myApps.myApps"))
 
@@ -51,12 +79,20 @@ def myApps():
             if str(i) in str(appName):
 
                 session["flag"]=2
-                session["flagText"]="Your application name must not contain \"{}\" character.".format(i)
+                
+                if session["language"]==0:
+
+                    session["flagText"]="Your application name must not contain \"{}\" character.".format(i)
+
+                else:
+                    session["flagText"]="Uygulama adınız \"{}\" karakterini içermemelidir.".format(i)
 
                 return redirect(url_for("myApps.myApps"))
 
 
         if len(str(appName)) > 3 and len(str(appName)) < 30:
+
+            createQR = False
 
             try:
 
@@ -69,35 +105,19 @@ def myApps():
                     if App_id!=None or len(App_id)!=0:
 
                         session["flag"]=2
-                        session["flagText"]="This app name is being used by someone else, please try another app name."
+                        
+                        if session["language"]==0:
+
+                            session["flagText"]="This app name is being used by someone else, please try another app name."
+
+                        else:
+                            session["flagText"]="Bu uygulama adı başka biri tarafından kullanılıyor, lütfen başka bir uygulama adı deneyin."
 
                         return redirect(url_for("myApps.myApps"))
 
             except:
 
-                if appNameInput!=appName:
-
-                    cursor.execute('UPDATE TBL_Apps SET app_name=%s WHERE app_id=%s and user_id=%s',
-                    (appName, appId, session["user_id"],))
-                    conn.commit()
-
-                    qr = qrcode.QRCode(
-                        version=1,
-                        error_correction=qrcode.constants.ERROR_CORRECT_H,
-                        box_size=10,
-                        border=3,
-                    )
-
-                    qr.add_data('{}{}'.format(myUrl,appName))
-                    qr.make(fit=True)
-                    img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
-
-                    img.save("static/QrCodes/{}.png".format(appName))
-                    
-                    if os.path.exists("static/QrCodes/{}.png".format(appNameInput)):
-                        os.remove("static/QrCodes/{}.png".format(appNameInput))
-                    else:
-                        pass
+                createQR=True
 
             linkCount = 0
 
@@ -108,7 +128,13 @@ def myApps():
                 if len(apple) < 3 or len(apple) >130 :
 
                     session["flag"]=2
-                    session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    else:
+                        session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -118,7 +144,12 @@ def myApps():
                 if flaga!=True and flagb!=True:
 
                     session["flag"]=2
-                    session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+                    if session["language"]==0:
+
+                        session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    else:
+                        session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
                     return redirect(url_for("myApps.myApps"))
 				
@@ -135,7 +166,13 @@ def myApps():
                 if len(android) < 3 or len(android) >130 :
 					
                     session["flag"]=2
-                    session["flagText"]="The link length must be between 3 and 130 characters."
+                    
+                    if session["language"]==0:
+
+                        session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    else:
+                        session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -145,7 +182,13 @@ def myApps():
                 if flaga!=True and flagb!=True:
 
                     session["flag"]=2
-                    session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+                    
+                    if session["language"]==0:
+
+                        session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    else:
+                        session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -162,7 +205,13 @@ def myApps():
                 if len(huawei) < 3 or len(huawei) >130 :
 					
                     session["flag"]=2
-                    session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    else:
+                        session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -173,7 +222,13 @@ def myApps():
                 if flaga!=True and flagb!=True:
 
                     session["flag"]=2
-                    session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    else:
+                        session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -190,7 +245,13 @@ def myApps():
                 if len(windows) < 3 or len(windows) >130 :
 					
                     session["flag"]=2
-                    session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    else:
+                        session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -201,7 +262,13 @@ def myApps():
                 if flaga!=True and flagb!=True:
 
                     session["flag"]=2
-                    session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    else:
+                        session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -219,7 +286,13 @@ def myApps():
                 if len(ubuntu) < 3 or len(ubuntu) >130 :
 					
                     session["flag"]=2
-                    session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="The link length must be between 3 and 130 characters."
+
+                    else:
+                        session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -229,7 +302,13 @@ def myApps():
                 if flaga!=True and flagb!=True:
 
                     session["flag"]=2
-                    session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    if session["language"]==0:
+
+                        session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+                    else:
+                        session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
                     return redirect(url_for("myApps.myApps"))
 
@@ -242,7 +321,13 @@ def myApps():
             if linkCount==0:
 
                 session["flag"]=2
-                session["flagText"]="Please add at least one link to the application."
+
+                if session["language"]==0:
+
+                    session["flagText"]="Please add at least one link to the application."
+
+                else:
+                    session["flagText"]="Lütfen uygulamaya en az bir bağlantı ekleyin."
 
                 return redirect(url_for("myApps.myApps"))
 
@@ -327,10 +412,38 @@ def myApps():
             except:
                 pass
 
-                
+            if (appNameInput!=appName) and (createQR==True):
+
+                cursor.execute('UPDATE TBL_Apps SET app_name=%s WHERE app_id=%s and user_id=%s',
+                (appName, appId, session["user_id"],))
+                conn.commit()
+
+                qr = qrcode.QRCode(
+                    version=1,
+                    error_correction=qrcode.constants.ERROR_CORRECT_H,
+                    box_size=10,
+                    border=3,
+                )
+
+                qr.add_data('{}{}'.format(myUrl,appName))
+                qr.make(fit=True)
+                img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+
+                img.save("static/QrCodes/{}.png".format(appName))
+                    
+                if os.path.exists("static/QrCodes/{}.png".format(appNameInput)):
+                    os.remove("static/QrCodes/{}.png".format(appNameInput))
+                else:
+                    pass
             
             session["flag"]=0
-            session["flagText"]="Application update process successful."
+
+            if session["language"]==0:
+
+                session["flagText"]="Application update process successful."
+
+            else:
+                session["flagText"]="Uygulama güncelleme işlemi başarılı."
 
             return redirect(url_for("myApps.myApps"))
 
@@ -338,7 +451,13 @@ def myApps():
         else:
 
             session["flag"]=2
-            session["flagText"]="The application name must be between 3 and 30 characters."
+
+            if session["language"]==0:
+
+                session["flagText"]="The application name must be between 3 and 30 characters."
+
+            else:
+                session["flagText"]="Uygulama adı 3 ile 30 karakter arasında olmalıdır."
 
             return redirect(url_for("myApps.myApps"))
 
@@ -347,6 +466,20 @@ def myApps():
         cursor.execute(
             'SELECT * FROM TBL_Apps WHERE user_id=%s ORDER BY app_id', (session["user_id"],))
         app = cursor.fetchall()
+
+        if len(app)==0:
+
+            if session["flag"] != 99:
+
+                flag = session["flag"]
+                flagText = session["flagText"]
+
+                session["flag"] = 99
+
+                return render_template("/myAppsNone.html", flag=flag, flagText=flagText, language=session["language"])
+            else:
+
+                return render_template("/myAppsNone.html", language=session["language"]) 
 
         apps = []
 
@@ -366,11 +499,11 @@ def myApps():
 
             session["flag"] = 99
 
-            return render_template("/myApps.html", flag=flag, flagText=flagText, apps=apps, myUrl=myUrl)
+            return render_template("/myApps.html", flag=flag, flagText=flagText, apps=apps, myUrl=myUrl, language=session["language"])
 
         else:
 
-            return render_template("/myApps.html", apps=apps, myUrl=myUrl)
+            return render_template("/myApps.html", apps=apps, myUrl=myUrl, language=session["language"])
 
 
 @myAppsBluePrint.route("/deleteApp", methods=['GET', 'POST'])
@@ -407,14 +540,26 @@ def deleteApp():
             conn.commit()
 
             session["flag"] = 1
-            session["flagText"] = "Your app has been successfully deleted... ({})".format(appName)
+
+            if session["language"]==0:
+
+                session["flagText"]="Your app has been successfully deleted... ({})".format(appName)
+
+            else:
+                session["flagText"]="Uygulamanız başarıyla silindi... ({})".format(appName)
 
             return redirect(url_for("myApps.myApps"))
 
         except:
 
             session["flag"] = 2
-            session["flagText"] = "Application deletion failed, unexpected error occurred."
+            
+            if session["language"]==0:
+
+                session["flagText"]="Application deletion failed, unexpected error occurred."
+
+            else:
+                session["flagText"]="Uygulama silinemedi, beklenmeyen bir hata oluştu."
 
             return redirect(url_for("myApps.myApps"))
 

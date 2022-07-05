@@ -1,8 +1,8 @@
 import qrcode
 from PyScripts.tools import *
 from flask import Blueprint
-import socket
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
+
+from flask import render_template, request, session, redirect, url_for
 
 
 generateBluePrint = Blueprint('generate', __name__,
@@ -21,17 +21,46 @@ def generate():
 		if int(user_appcount)==2:
 
 			session["flag"] = 2
-			session["flagText"] = "Your right to create an application has expired."
+
+			if session["language"]==0:
+
+				session["flagText"]="Your right to create an application has expired."
+
+			else:
+				session["flagText"]="Uygulama oluşturma hakkınız sona erdi."
 
 			return redirect(url_for("create"))
 
 
 		appName = str(request.form['appName'])
 
+		blackList = ["login", "register", "home", "replacePass", "myApps", "create", "generate", "me", "tr", "en", "confirm", "resetPass", "logout","demir", "demirai", "sfr", "softforrange"]
+
+		for i in blackList:
+
+			if appName.lower()==i.lower():
+
+				session["flag"]=2
+
+				if session["language"]==0:
+
+					session["flagText"]="You can't get this app name."
+
+				else:
+					session["flagText"]="Bu uygulama adını alamazsınız."
+
+				return redirect(url_for("myApps.myApps"))
+
+
 		if appName.isalnum()==False:
 
 			session["flag"]=2
-			session["flagText"]="Your application name must not contain non-alphanumeric characters."
+			if session["language"]==0:
+
+				session["flagText"]="Your application name must not contain non-alphanumeric characters."
+
+			else:
+				session["flagText"]="Uygulama adınız alfanumerik olmayan karakterler içermemelidir."
 
 			return redirect(url_for("myApps.myApps"))
 
@@ -42,7 +71,12 @@ def generate():
 			if str(i) in str(appName):
 
 				session["flag"]=2
-				session["flagText"]="Your application name must not contain \"{}\" character.".format(i)
+				if session["language"]==0:
+
+					session["flagText"]="Your application name must not contain \"{}\" character.".format(i)
+
+				else:
+					session["flagText"]="Uygulama adınız \"{}\" karakterini içermemelidir.".format(i)
 
 				return redirect(url_for("myApps.myApps"))
 
@@ -57,7 +91,13 @@ def generate():
 				if App_id!=None or len(App_id)!=0:
 
 					session["flag"] = 2
-					session["flagText"] = "This app name is being used by someone else, please try another app name."
+
+					if session["language"]==0:
+    
+						session["flagText"]="This app name is being used by someone else, please try another app name."
+
+					else:
+						session["flagText"]="Bu uygulama adı başka biri tarafından kullanılıyor, lütfen başka bir uygulama adı deneyin."
 
 					return redirect(url_for("create"))
 
@@ -74,7 +114,12 @@ def generate():
 				if len(apple) < 3 or len(apple) >130 :
 
 					session["flag"] = 2
-					session["flagText"] = "The link length must be between 3 and 130 characters."
+					if session["language"]==0:
+
+						session["flagText"]="The link length must be between 3 and 130 characters."
+
+					else:
+						session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
 					return redirect(url_for("create"))
 					
@@ -84,7 +129,12 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
+					if session["language"]==0:
+
+						session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+					else:
+						session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
 					return redirect(url_for("create"))
 				
@@ -101,7 +151,12 @@ def generate():
 				if len(android) < 3 or len(android) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "The link length must be between 3 and 130 characters."
+					if session["language"]==0:
+
+						session["flagText"]="The link length must be between 3 and 130 characters."
+
+					else:
+						session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
 					return redirect(url_for("create"))
 
@@ -112,7 +167,12 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
+					if session["language"]==0:
+
+						session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+					else:
+						session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
 					return redirect(url_for("create"))
 
@@ -129,7 +189,12 @@ def generate():
 				if len(huawei) < 3 or len(huawei) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "The link length must be between 3 and 130 characters."
+					if session["language"]==0:
+
+						session["flagText"]="The link length must be between 3 and 130 characters."
+
+					else:
+						session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
 					return redirect(url_for("create"))
 
@@ -140,7 +205,12 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
+					if session["language"]==0:
+
+						session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+					else:
+						session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
 					return redirect(url_for("create"))
 
@@ -157,7 +227,12 @@ def generate():
 				if len(windows) < 3 or len(windows) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "The link length must be between 3 and 130 characters."
+					if session["language"]==0:
+
+						session["flagText"]="The link length must be between 3 and 130 characters."
+
+					else:
+						session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
 					return redirect(url_for("create"))
 
@@ -168,7 +243,12 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
+					if session["language"]==0:
+
+						session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+					else:
+						session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
 					return redirect(url_for("create"))
 
@@ -186,7 +266,12 @@ def generate():
 				if len(ubuntu) < 3 or len(ubuntu) >130 :
 					
 					session["flag"] = 2
-					session["flagText"] = "The link length must be between 3 and 130 characters."
+					if session["language"]==0:
+
+						session["flagText"]="The link length must be between 3 and 130 characters."
+
+					else:
+						session["flagText"]="Bağlantı uzunluğu 3 ile 130 karakter arasında olmalıdır."
 
 					return redirect(url_for("create"))
 
@@ -196,7 +281,12 @@ def generate():
 				if flaga!=True and flagb!=True:
 
 					session["flag"] = 2
-					session["flagText"] = "Please specify one of the http:// or https:// protocols in your links."
+					if session["language"]==0:
+
+						session["flagText"]="Please specify one of the http:// or https:// protocols in your links."
+
+					else:
+						session["flagText"]="Lütfen bağlantılarınızda http:// veya https:// protokollerinden birini belirtin."
 
 					return redirect(url_for("create"))
 
@@ -209,7 +299,12 @@ def generate():
 			if linkCount==0:
 
 				session["flag"] = 2
-				session["flagText"] = "Please add at least one link to the application."
+				if session["language"]==0:
+
+					session["flagText"]="Please add at least one link to the application."
+
+				else:
+					session["flagText"]="Lütfen uygulamaya en az bir bağlantı ekleyin."
 
 				return redirect(url_for("create"))
 
@@ -312,13 +407,26 @@ def generate():
 			(session["user_id"],))
 			conn.commit()
 
-			flagText = "You can access your application via a single link, regardless of device, from the link below."
-			return render_template("/generate.html", flag=0, flagText=flagText, appName=appName, myUrl=myUrl)
+			if session["language"]==0:
+
+				flagText = "You can access your application via a single link, regardless of device, from the link below."
+
+			else:
+				flagText = "Uygulamanıza aşağıdaki linkten cihaz fark etmeksizin tek bir link üzerinden ulaşabilirsiniz."
+
+			return render_template("/generate.html", flag=0, flagText=flagText, appName=appName, myUrl=myUrl, language=session["language"])
 
 		else:
 
-			session["flag"] = 2
-			session["flagText"] = "The application name must be between 3 and 30 characters."
+			session["flag"]=2
+
+			if session["language"]==0:
+
+				session["flagText"]="The application name must be between 3 and 30 characters."
+
+			else:
+				session["flagText"]="Uygulama adı 3 ile 30 karakter arasında olmalıdır."
+
 
 			return redirect(url_for("create"))
 
