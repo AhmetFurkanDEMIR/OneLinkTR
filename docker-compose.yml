@@ -1,0 +1,37 @@
+version: '3.0'
+
+networks:
+  bridge2:
+    external: true
+
+services:
+
+  db-postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456789Zz.
+      - POSTGRES_DB=postgres
+    volumes: 
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    ports:
+      - '5433:5432'
+
+    networks:
+      - bridge2
+
+  flask-web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db-postgres
+    volumes:
+      - .:/code
+
+    networks:
+      - bridge2
+
+    restart: on-failure

@@ -1,9 +1,8 @@
 import qrcode
 from PyScripts.tools import *
 from flask import Blueprint
-import socket
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
-
+from flask import render_template, request, session, redirect, url_for
+from PIL import Image, ImageDraw
 
 generateBluePrint = Blueprint('generate', __name__,
                         template_folder='templates')

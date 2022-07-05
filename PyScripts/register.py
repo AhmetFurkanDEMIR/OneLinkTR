@@ -122,15 +122,15 @@ def register():
 <p>Welcome! Thanks for signing up. Please follow this link to activate your account.</p>
 <p>Verification link (The validity period of the link is 30 minutes): <a href="{}">{}</a></p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a>|<a href="https://softforrange.com/">SoftForRange</a></p>
+<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
 	
 """.format(token, token)
 
 			konu = "Mail Verification"
 			ileti = strHtml
-			gonderenMail = 'softforrange@yandex.com'
+			gonderenMail = MyEmail
 			gonderilenMail = email
-			sifre = sender_pass = 'sfr06580658'
+			sifre = MyEmailPass
 			message = MIMEMultipart()
 			message["From"] = gonderenMail
 			message["To"] = gonderilenMail

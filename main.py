@@ -1,5 +1,4 @@
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
-from matplotlib.pyplot import flag
+from flask import render_template, Flask, request, session, redirect, url_for
 from PyScripts.tools import *
 from PyScripts.generate import generateBluePrint
 from PyScripts.register import registerBluePrint, confirm_emailBluePrint
@@ -306,14 +305,11 @@ def runLink(name):
     try:
 
         cursor.execute(
-            'SELECT app_id FROM TBL_Apps WHERE app_name=%s', (name,))
+            'SELECT app_id FROM TBL_Apps WHERE lower(app_name)=%s', (name.lower(),))
         App_id = cursor.fetchall()
         App_id = App_id[0][0]
 
     except:
-
-        session["flag"]=1
-        session["flagText"]="The requested application was not found."
 
         return redirect(url_for("main"))
 
@@ -401,4 +397,4 @@ def runLink(name):
 
 if __name__ == "__main__":
 
-    app.run(debug=True, host='0.0.0.0', port=5600)
+    app.run(debug=True, host=ServerIp, port=ServerPort)

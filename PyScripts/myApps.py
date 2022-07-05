@@ -1,5 +1,4 @@
-from re import template
-from flask import render_template, Flask, flash, request, logging, session, redirect, url_for
+from flask import render_template, session, redirect, url_for, request
 from flask import Blueprint
 from PyScripts.tools import *
 import os
