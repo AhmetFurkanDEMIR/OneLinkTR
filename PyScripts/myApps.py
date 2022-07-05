@@ -467,6 +467,20 @@ def myApps():
             'SELECT * FROM TBL_Apps WHERE user_id=%s ORDER BY app_id', (session["user_id"],))
         app = cursor.fetchall()
 
+        if len(app)==0:
+
+            if session["flag"] != 99:
+
+                flag = session["flag"]
+                flagText = session["flagText"]
+
+                session["flag"] = 99
+
+                return render_template("/myAppsNone.html", flag=flag, flagText=flagText, language=session["language"])
+            else:
+
+                return render_template("/myAppsNone.html", language=session["language"]) 
+
         apps = []
 
         for i in app:
