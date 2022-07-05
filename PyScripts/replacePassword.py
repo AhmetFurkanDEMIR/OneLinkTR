@@ -123,11 +123,11 @@ def replacePass():
 
             session["flag"] = 99
 
-            return render_template("/PasswordSendMail.html", flag=flag, flagText=flagText)
+            return render_template("/PasswordSendMail.html", flag=flag, flagText=flagText, language=session["language"])
 
         else:
 
-            return render_template("/PasswordSendMail.html")
+            return render_template("/PasswordSendMail.html", language=session["language"])
 
 
 @resetPassBluePrint.route("/resetPass/<token>",methods = ['GET', 'POST'])

@@ -94,15 +94,20 @@ body {
 }
 
 .site-footer {
+    
     background: rgb(0, 102, 255);
     position: fixed;
     padding: 0px 0px 0px 0px;
     bottom: 0;
     width: 100%;
     z-index:3;
-    
-
 
 }
 
+
+.dropdown-menu {
+    background-color: #0d6efd;
+    color:black;
+}
+.dropdown-menu a:hover {background-color: rgb(43, 128, 255)}
 

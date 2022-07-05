@@ -42,21 +42,42 @@ def register():
 			if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
 
 				session["flag"] = 2
-				session["flagText"] = "Name and Surname cannot be less than 3 characters and larger than 30 characters."
+				
+				if session["language"]==0:
+
+					session["flagText"] = "Name and Surname cannot be less than 3 characters and larger than 30 characters."
+
+				else:
+					
+					session["flagText"] = "Ad ve Soyad 3 karakterden az 30 karakterden büyük olamaz."
 
 				return redirect(url_for("register.register"))
 
 			if len(str(tel)) != 10:
 
 				session["flag"] = 2
-				session["flagText"] = "phone number must be ten digits without leading \"0\" and no spaces"
+
+				if session["language"]==0:
+
+					session["flagText"] = "phone number must be ten digits without leading \"0\" and no spaces"
+
+				else:
+					
+					session["flagText"] = "telefon numarası, başında \"0\" olmadan ve boşluk olmadan on haneden oluşmalıdır"
 
 				return redirect(url_for("register.register"))
 
 			if (len(str(password)) < 8 or len(str(password)) > 30) or (len(str(passworda)) < 8 or len(str(passworda)) > 30):
 
 				session["flag"] = 2
-				session["flagText"] = "Your password must be between 8 and 30 characters, please try again."
+
+				if session["language"]==0:
+
+					session["flagText"] = "Your password must be between 8 and 30 characters, please try again."
+
+				else:
+					
+					session["flagText"] = "Şifreniz 8 ile 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
 
 				return redirect(url_for("register.register"))
 
@@ -64,21 +85,42 @@ def register():
 			if ("@gmail.com" in email) == False:
 
 				session["flag"] = 2
-				session["flagText"] = "Since our project is still in beta, we only allow google mails with gmail extensions."
+
+				if session["language"]==0:
+
+					session["flagText"] = "Since our project is still in beta, we only allow google mails with gmail extensions."
+
+				else:
+					
+					session["flagText"] = "Projemiz henüz beta sürümünde olduğu için yalnızca gmail uzantılı google maillerine izin veriyoruz."
 
 				return redirect(url_for("register.register"))
 
 			if len(str(email)) < 5 or len(str(email))>50:
 
 				session["flag"] = 2
-				session["flagText"] = "Hatali mail"
+
+				if session["language"]==0:
+
+					session["flagText"] = "Incorrect email"
+
+				else:
+					
+					session["flagText"] = "Hatalı mail"
 
 				return redirect(url_for("register.register"))
 
 		except:
 
 			session["flag"] = 2
-			session["flagText"] = "Missing data has been entered, please fill in all the boxes."
+
+			if session["language"]==0:
+
+				session["flagText"] = "Missing data has been entered, please fill in all the boxes."
+
+			else:
+					
+				session["flagText"] = "Eksik veriler girildi, lütfen tüm kutuları doldurun."
 
 			return redirect(url_for("register.register"))
 
@@ -86,7 +128,14 @@ def register():
 		if password!=passworda:
 
 			session["flag"] = 2
-			session["flagText"] = "The two passwords you entered are not the same, please try again."
+
+			if session["language"]==0:
+
+				session["flagText"] = "The two passwords you entered are not the same, please try again."
+
+			else:
+					
+				session["flagText"] = "Girdiğiniz iki şifre aynı değil, lütfen tekrar deneyin."
 
 			return redirect(url_for("register.register"))
 
@@ -102,7 +151,14 @@ def register():
 				user_id = user[0][0]
 
 				session["flag"] = 2
-				session["flagText"] = "This Email or Phone number has been used before, please try again."
+
+				if session["language"]==0:
+
+					session["flagText"] = "This Email or Phone number has been used before, please try again."
+
+				else:
+						
+					session["flagText"] = "Bu E-posta veya Telefon numarası daha önce kullanılmış, lütfen tekrar deneyin."
 
 				return redirect(url_for("register.register"))
 
@@ -147,16 +203,32 @@ def register():
 		except:
 
 			session["flag"] = 2
-			session["flagText"] = "An error was encountered during registration, please try again."
+
+			if session["language"]==0:
+
+				session["flagText"] = "An error was encountered during registration, please try again."
+
+			else:
+					
+				session["flagText"] = "Kayıt sırasında bir hatayla karşılaşıldı, lütfen tekrar deneyin."
 
 			return redirect(url_for("register.register"))
 
 		session["flag"] = 0
-		session["flagText"] = "Email verification step, please go to your \""+email+"\" email address and click on the verification link (connection validity 30 minutes). Then your account will be activated and you will be able to use TekLink application."
+		
+		if session["language"]==0:
+
+			session["flagText"] = "Email verification step, please go to your \""+email+"\" email address and click on the verification link (connection validity 30 minutes). Then your account will be activated and you will be able to use TekLink application."
+
+		else:
+					
+			session["flagText"] = "E-posta doğrulama adımı, lütfen \""+email+"\" e-posta adresinize gidin ve doğrulama bağlantısını tıklayın (bağlantı geçerliliği 30 dakika). Ardından hesabınız aktif hale gelecek ve TekLink uygulamasını kullanabileceksiniz."
+		
 		return redirect(url_for("main"))
 
 
 	else:
+
 
 		if session["flag"] != 99:
 
@@ -165,11 +237,11 @@ def register():
 
 			session["flag"] = 99
 
-			return render_template("/register.html", flag=flag, flagText=flagText)
+			return render_template("/register.html", flag=flag, flagText=flagText, language=session["language"])
 
 		else:
 
-			return render_template("/register.html")
+			return render_template("/register.html", language=session["language"])
 
 
 confirm_emailBluePrint = Blueprint('confirm_email', __name__,
@@ -178,11 +250,19 @@ confirm_emailBluePrint = Blueprint('confirm_email', __name__,
 @confirm_emailBluePrint.route("/confirm/<token>")
 def confirm_email(token):
 
+	try:
+
+		session["language"]
+
+	except:
+
+		session["language"]=0
+
 	flag = None
 
 	try:
 
-		print(session["user_id"])
+		session["user_id"]
 
 	except:
 
@@ -200,7 +280,14 @@ def confirm_email(token):
 		if emailTemp==False:
 
 			session["flag"] = 2
-			session["flagText"] = "An error occurred during the validation phase, please try again."
+
+			if session["language"]==0:
+
+				session["flagText"] = "An error occurred during the validation phase, please try again."
+
+			else:
+				
+				session["flagText"] = "Doğrulama aşamasında bir hata oluştu, lütfen tekrar deneyin."
 		
 			return redirect(url_for("main"))
 
@@ -217,7 +304,14 @@ def confirm_email(token):
 		if now>=new_final_time:
 
 			session["flag"] = 2
-			session["flagText"] = "The link has expired..."
+
+			if session["language"]==0:
+
+				session["flagText"] = "The link has expired..."
+
+			else:
+				
+				session["flagText"] = "Bağlantının süresi doldu..."
 		
 			return redirect(url_for("main"))
 
@@ -230,7 +324,14 @@ def confirm_email(token):
 		if user_confirmed==1:
 
 			session["flag"] = 1
-			session["flagText"] = "Your account is already verified."
+
+			if session["language"]==0:
+
+				session["flagText"] = "Your account is already verified."
+
+			else:
+				
+				session["flagText"] = "Hesabınız zaten doğrulandı."
 		
 			return redirect(url_for("main"))
 
@@ -240,14 +341,29 @@ def confirm_email(token):
 
 
 		session["flag"] = 0
-		session["flagText"] = "Email verification is successful, you can now log in to your account."
+
+		if session["language"]==0:
+
+			session["flagText"] = "Email verification is successful, you can now log in to your account."
+
+		else:
+				
+			session["flagText"] = "E-posta doğrulaması başarılı, şimdi hesabınıza giriş yapabilirsiniz."
+
 		return redirect(url_for("main"))
 
 
 	except:
 
 		session["flag"] = 2
-		session["flagText"] = "An error occurred during the validation phase, please try again."
+
+		if session["language"]==0:
+
+			session["flagText"] = "An error occurred during the validation phase, please try again."
+
+		else:
+				
+			session["flagText"] = "Doğrulama aşamasında bir hata oluştu, lütfen tekrar deneyin."
 		
 		return redirect(url_for("main"))
         

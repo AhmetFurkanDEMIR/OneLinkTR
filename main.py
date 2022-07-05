@@ -26,10 +26,12 @@ def main():
     try:
 
         session["flag"]
+        session["language"]
 
     except:
 
         session["flag"]=99
+        session["language"]=1
 
     flag = None
 
@@ -53,11 +55,11 @@ def main():
 
         session["flag"] = 99
 
-        return render_template("/index.html", flag=flag, flagText=flagText)
+        return render_template("/index.html", flag=flag, flagText=flagText, language=session["language"])
 
     else:
 
-        return render_template("/index.html")
+        return render_template("/index.html", language=session["language"])
 
 
 
@@ -94,14 +96,26 @@ def login():
             if int(user_confirmed) == 0:
 
                 session["flag"]=2
-                session["flagText"]="Sorry, your account is not verified, please verify your account by clicking the link in your e-mail address."
+
+                if session["language"]==0:
+
+                    session["flagText"]="Sorry, your account is not verified, please verify your account by clicking the link in your e-mail address."
+
+                else:
+                    session["flagText"]="Üzgünüz, hesabınız doğrulanmadı, lütfen e-posta adresinizdeki bağlantıya tıklayarak hesabınızı doğrulayın."
 
                 return redirect(url_for("login"))
 
         except:
 
             session["flag"]=2
-            session["flagText"]="The user with this email is not found."
+
+            if session["language"]==0:
+
+                session["flagText"]="The user with this email is not found."
+
+            else:
+                session["flagText"]="Bu e-postaya sahip kullanıcı bulunamadı."
 
             return redirect(url_for("login"))
 
@@ -112,13 +126,27 @@ def login():
             session["flag"]=2
             session["flagText"]="Incorrect Password."
 
+            if session["language"]==0:
+
+                session["flagText"]="Incorrect Password."
+
+            else:
+                session["flagText"]="Hatalı Şifre."
+
             return redirect(url_for("login"))
 
         session["logged_in"] = True
         session["user_id"] = user_id
 
         session["flag"] = 0
-        session["flagText"] = "Login successful."
+
+        if session["language"]==0:
+
+            session["flagText"] = "Login successful."
+
+        else:
+			
+            session["flagText"] = "Giriş Başarılı."
 
         return redirect(url_for("myApps.myApps"))
 
@@ -131,11 +159,11 @@ def login():
 
             session["flag"] = 99
 
-            return render_template("/login.html", flag=flag, flagText=flagText)
+            return render_template("/login.html", flag=flag, flagText=flagText, language=session["language"])
 
         else:
 
-            return render_template("/login.html")
+            return render_template("/login.html", language=session["language"])
 
 
 
@@ -143,10 +171,22 @@ def login():
 @login_required
 def logout():
 
+	language = session["language"]
+
 	session.clear()
 
+	session["language"] = language
+
 	session["flag"] = 0
-	session["flagText"] = "Exit Successful."
+
+	if session["language"]==0:
+
+		session["flagText"] = "Exit Successful."
+
+	else:
+
+		session["flagText"] = "Çıkış Başarılı"
+
 
 	return redirect(url_for("main"))
 
@@ -171,11 +211,21 @@ def me():
 
 				if sha256_crypt.verify(passwordDelete, user_password) != True:
 
+					language = session["language"]
+
 					session.clear()
 
-					session["flag"] = 2
-					session["flagText"] = "Password verification failed, your account could not be deleted."
+					session["language"] = language
 
+					session["flag"] = 2
+
+					if session["language"]==0:
+
+						session["flagText"]="Password verification failed, your account could not be deleted."
+
+					else:
+						session["flagText"]="Şifre doğrulama başarısız oldu, hesabınız silinemedi."
+					
 					return redirect(url_for("main"))
 					
 
@@ -185,10 +235,20 @@ def me():
 					(1, session["user_id"],))
 					conn.commit()
 
+					language = session["language"]
+
 					session.clear()
 
 					session["flag"] = 1
-					session["flagText"] = "Your Account Has Been Deleted Successfully...."
+
+					session["language"] = language
+
+					if session["language"]==0:
+
+						session["flagText"]="Your Account Has Been Deleted Successfully...."
+
+					else:
+						session["flagText"]="Hesabınız Başarıyla Silindi...."
 
 					return redirect(url_for("main"))
 		except:
@@ -206,10 +266,20 @@ def me():
 
 		if sha256_crypt.verify(password, user_password) != True:
 
+			language = session["language"]
+
 			session.clear()
 
+			session["language"] = language
+
 			session["flag"]=2
-			session["flagText"]="Password verification failed."
+
+			if session["language"]==0:
+
+				session["flagText"]="Password verification failed."
+
+			else:
+				session["flagText"]="Parola doğrulama başarısız oldu."
 
 			return redirect(url_for("main"))
 
@@ -217,14 +287,28 @@ def me():
 		if (len(str(ad))<3 or len(str(ad)) > 30) or (len(str(soyad))<3 or len(str(soyad)) > 30):
 
 			session["flag"]=2
-			session["flagText"]="Name and Surname cannot be less than 3 characters and larger than 30 characters."
+
+			if session["language"]==0:
+
+				session["flagText"]="Name and Surname cannot be less than 3 characters and larger than 30 characters."
+
+			else:
+				session["flagText"]="Ad ve Soyad 3 karakterden az 30 karakterden büyük olamaz."
+
 
 			return redirect(url_for("me"))
 
 		if (len(str(newPassword)) < 8 or len(str(newPassword)) > 30) and (len(str(newPassword))!=0):
 
 			session["flag"]=2
-			session["flagText"]="Your new password must be between 8 and 30 characters, please try again."
+
+			if session["language"]==0:
+
+				session["flagText"]="Your new password must be between 8 and 30 characters, please try again."
+
+			else:
+				session["flagText"]="Yeni şifreniz 8 ile 30 karakter arasında olmalıdır, lütfen tekrar deneyiniz."
+
 
 			return redirect(url_for("me"))
 
@@ -242,7 +326,13 @@ def me():
 			conn.commit()
 
 		session["flag"]=0
-		session["flagText"]="Profile update successful."
+
+		if session["language"]==0:
+
+			session["flagText"]="Profile update successful."
+
+		else:
+			session["flagText"]="Profil güncellemesi başarılı."
 
 		return redirect(url_for("me"))
 
@@ -271,9 +361,9 @@ def me():
 
 			session["flag"] = 99
 
-			return render_template("/me.html", user_final=user_final, flag=flag, flagText=flagText)
+			return render_template("/me.html", user_final=user_final, flag=flag, flagText=flagText, language=session["language"])
 
-		return render_template("/me.html", user_final=user_final)
+		return render_template("/me.html", user_final=user_final, language=session["language"])
 
 
 @app.route("/create")
@@ -293,11 +383,25 @@ def create():
 
 		session["flag"] = 99
 
-		return render_template("/create.html", count=count,flag=flag, flagText=flagText,)
+		return render_template("/create.html", count=count,flag=flag, flagText=flagText,language=session["language"])
 	
 	else:
-		return render_template("/create.html", count=count)
+		return render_template("/create.html", count=count, language=session["language"])
 
+
+@app.route("/tr", methods=['GET', 'POST'])
+def tr():
+
+	session["language"] = 1
+
+	return redirect(url_for("main"))
+
+@app.route("/en", methods=['GET', 'POST'])
+def en():
+
+	session["language"] = 0
+
+	return redirect(url_for("main"))
 
 @app.route("/<string:name>")
 def runLink(name):

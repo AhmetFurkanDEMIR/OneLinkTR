@@ -20,8 +20,8 @@ MyEmailPass = "sfr06580658"
 
 
 conn = psycopg2.connect(
-    host="db-postgres",
-    database="postgres",
+    host="localhost",
+    database="teklink",
     port="5432",
     user="postgres",
     password="123456789Zz.")
