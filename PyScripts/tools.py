@@ -18,6 +18,15 @@ global MyEmailPass
 MyEmail = "softforrange@yandex.com"
 MyEmailPass = "sfr06580658"
 
+# docker-database connect
+"""
+conn = psycopg2.connect(
+    host="db-postgres",
+    database="postgres",
+    port="5432",
+    user="postgres",
+    password="123456789Zz.")
+"""
 
 conn = psycopg2.connect(
     host="localhost",

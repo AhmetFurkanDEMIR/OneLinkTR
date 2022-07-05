@@ -34,6 +34,24 @@ def generate():
 
 		appName = str(request.form['appName'])
 
+		blackList = ["login", "register", "home", "replacePass", "myApps", "create", "generate", "me", "tr", "en", "confirm", "resetPass", "logout","demir", "demirai", "sfr", "softforrange"]
+
+		for i in blackList:
+
+			if appName.lower()==i.lower():
+
+				session["flag"]=2
+
+				if session["language"]==0:
+
+					session["flagText"]="You can't get this app name."
+
+				else:
+					session["flagText"]="Bu uygulama adını alamazsınız."
+
+				return redirect(url_for("myApps.myApps"))
+
+
 		if appName.isalnum()==False:
 
 			session["flag"]=2
