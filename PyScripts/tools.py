@@ -13,11 +13,11 @@ myUrl = "http://{}:{}/".format(str(myIp), str(ServerPort))
 
 global MyEmail
 global MyEmailPass
-MyEmail = "onelinktr@yandex.com"
-MyEmailPass = "123456789Zz.A"
+MyEmail = "your_yandex_mail"
+MyEmailPass = "your_password"
 
 # docker-database connect
-"""
+
 conn = psycopg2.connect(
     host="db-postgres",
     database="postgres",
@@ -34,7 +34,7 @@ conn = psycopg2.connect(
     user="postgres",
     password="123456789Zz.")
 
-
+"""
 cursor = conn.cursor()
 
 def login_required(f):
