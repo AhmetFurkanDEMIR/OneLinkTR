@@ -49,7 +49,7 @@ def generate():
 				else:
 					session["flagText"]="Bu uygulama adını alamazsınız."
 
-				return redirect(url_for("myApps.myApps"))
+				return redirect(url_for("create"))
 
 
 		if appName.isalnum()==False:
@@ -62,7 +62,7 @@ def generate():
 			else:
 				session["flagText"]="Uygulama adınız alfanumerik olmayan karakterler içermemelidir."
 
-			return redirect(url_for("myApps.myApps"))
+			return redirect(url_for("create"))
 
 		notSTR="\"!'^+%&/()=?_-*\\,><;:.é£#$½¾\{\}[] "
 
