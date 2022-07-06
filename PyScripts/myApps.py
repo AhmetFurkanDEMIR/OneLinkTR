@@ -72,7 +72,7 @@ def myApps():
 
             return redirect(url_for("myApps.myApps"))
 
-        notSTR="\"!'^+%&/()=?_-*\\,><;:.é£#$½¾\{\}[] "
+        notSTR="\"!'^+%&/()=?_-*\\,><;:.é£#$½¾\{\}[]çıüğöşİĞÜÖŞÇ "
 
         for i in notSTR:
 
