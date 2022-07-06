@@ -90,7 +90,7 @@ docker volume rm $(docker volume ls -q)
 sudo docker-compose up -d
 ```
 
-Now that our images are deployed, you can access the OneLinkTR application via http://YourPublicIp:5000. (my Url: http://192.168.1.33:5000/myApps)
+Now that our images are deployed, you can access the OneLinkTR application via http://YourPublicIp:5000. (my Url: http://192.168.1.33:5000/)
 
 
 
