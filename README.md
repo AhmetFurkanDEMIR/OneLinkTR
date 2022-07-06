@@ -3,7 +3,7 @@
 # [OneLinkTR.com](https://onelinktr.com/)
 
 **Keep It Together!**
-With this application developed by the SoftForRange team, keep both your links and your customers together.
+With this application developed by the [SoftForRange](https://softforrange.com/) team, keep both your links and your customers together.
 
 **Economize**
 Don't have to allocate a separate ad budget for each app, get it all done at once!
@@ -95,3 +95,10 @@ Now that our images are deployed, you can access the OneLinkTR application via h
 
 
 
+#### Contributors
+
+* [Ahmet Furkan DEMIR](https://www.ahmetfurkandemir.com/)
+
+* [Mustafa Esen](https://www.linkedin.com/in/mustafa-esen-6a1546194/)
+
+* [SoftForRange](https://softforrange.com/)
