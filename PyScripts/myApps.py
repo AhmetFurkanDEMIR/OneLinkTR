@@ -486,7 +486,7 @@ def myApps():
         for i in app:
 
             cursor.execute(
-                'SELECT * FROM TBL_Links WHERE app_id=%s', (i[0],))
+                'SELECT * FROM TBL_Links WHERE app_id=%s ORDER BY app_id', (i[0],))
             links = cursor.fetchall()
 
             apps.append([i, links])
