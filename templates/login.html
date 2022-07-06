@@ -241,7 +241,16 @@
                 </div>
 
                 <div class="padding-15">
+                    {% if language==0 %}
+
+                    <input class="form-control btn-primary fw-bold" id="Button1" type="submit" value="Login" />
+
+                    {% else %}
+
                     <input class="form-control btn-primary fw-bold" id="Button1" type="submit" value="Giriş Yap" />
+
+                    {% endif %}
+                    
                 </div>
 
 

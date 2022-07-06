@@ -10,6 +10,7 @@ ServerPort = 5000
 
 global myUrl
 myIp = "your_public_ip"
+myIp = "192.168.1.33"
 myUrl = "http://{}:{}/".format(str(myIp), str(ServerPort))
 
 global MyEmail
@@ -25,7 +26,8 @@ conn = psycopg2.connect(
     port="5432",
     user="postgres",
     password="123456789Zz.")
-    
+
+
 """
 conn = psycopg2.connect(
     host="localhost",
@@ -34,6 +36,7 @@ conn = psycopg2.connect(
     user="postgres",
     password="123456789Zz.")
 """
+
 cursor = conn.cursor()
 
 def login_required(f):
