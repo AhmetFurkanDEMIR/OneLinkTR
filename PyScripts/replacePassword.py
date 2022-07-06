@@ -53,7 +53,15 @@ def replacePass():
                 conn.commit()
 
                 session["flag"] = 2
-                session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
+                
+                if session["language"]==0:
+
+                    session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
+
+                else:
+						
+                    session["flagText"] = "Posta sunucumuzda çok fazla işlem yaptığınız için saldırı olduğunu tespit ettik. Hesabınız engellendi."
+                
                 return redirect(url_for("main"))
 
 
@@ -97,20 +105,46 @@ def replacePass():
                     server.sendmail(gonderenMail, gonderilenMail, yazi)
 
                 session["flag"] = 0
-                session["flagText"] = "Password reset link has been sent, please check your mailbox. The link may be delayed, please wait. (link is valid for 30 minutes)"
+                
+                if session["language"]==0:
+
+                    session["flagText"] = "Password reset link has been sent, please check your mailbox. The link may be delayed, please wait. (link is valid for 30 minutes)"
+
+                else:
+						
+                    session["flagText"] = "Şifre sıfırlama bağlantısı gönderildi, lütfen posta kutunuzu kontrol edin. Bağlantı gecikebilir, lütfen bekleyin. (bağlantı 30 dakika geçerlidir)"
+                
                 return redirect(url_for("main"))
 
             except:
 
                 session["flag"] = 2
-                session["flagText"] = "An error has occurred, please try again."
+
+                if session["language"]==0:
+
+                    session["flagText"] = "An error has occurred, please try again."
+
+                else:
+						
+                    session["flagText"] = "Bir hata oluştu. Lütfen tekrar deneyin."
+
+
                 return redirect(url_for("replacePass.replacePass"))
 
 
         except:
 
             session["flag"] = 2
-            session["flagText"] = "No user found with this email address."
+
+            if session["language"]==0:
+
+                session["flagText"] = "No user found with this email address."
+
+            else:
+						
+                session["flagText"] = "Bu e-posta adresine sahip kullanıcı bulunamadı."
+
+
             return redirect(url_for("replacePass.replacePass"))
 
 
@@ -154,7 +188,16 @@ def resetPass(token):
         if emailTemp==False:
 
             session["flag"] = 2
-            session["flagText"] = "There was an error resetting the password, please try again."
+
+            if session["language"]==0:
+
+                session["flagText"] = "There was an error resetting the password, please try again."
+
+            else:
+						
+                session["flagText"] = "Şifre sıfırlanırken bir hata oluştu, lütfen tekrar deneyin."
+
+
 		
             return redirect(url_for("main"))
 
@@ -171,7 +214,14 @@ def resetPass(token):
         if now>=new_final_time:
 
             session["flag"] = 2
-            session["flagText"] = "The link has expired..."
+
+            if session["language"]==0:
+
+                session["flagText"] = "The link has expired..."
+
+            else:
+						
+                session["flagText"] = "Bağlantının süresi doldu..."
 		
             return redirect(url_for("main"))
 
@@ -188,8 +238,15 @@ def resetPass(token):
             conn.commit()
 
             session["flag"] = 2
-            session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
             
+            if session["language"]==0:
+
+                session["flagText"] = "We have detected it as an attack because you are doing too many operations on our mail server. Your account has been disabled."
+
+            else:
+						
+                session["flagText"] = "Posta sunucumuzda çok fazla işlem yaptığınız için saldırı olduğunu tespit ettik. Hesabınız engellendi."
+
             return redirect(url_for("main"))
 
 
@@ -248,12 +305,27 @@ def resetPass(token):
         conn.commit()
 
         session["flag"] = 0
-        session["flagText"] = "Mail verification is successful, your new password has been sent to your e-mail address, you can log in with this password and change the current password from your profile."
+        
+        if session["language"]==0:
+
+            session["flagText"] = "Mail verification is successful, your new password has been sent to your e-mail address, you can log in with this password and change the current password from your profile."
+
+        else:
+						
+            session["flagText"] = "Mail doğrulama başarılı, yeni şifreniz e-posta adresinize gönderildi, bu şifre ile giriş yapabilir ve mevcut şifrenizi profilinizden değiştirebilirsiniz."
+        
         return redirect(url_for("main"))
 
     except:
 
         session["flag"] = 2
-        session["flagText"] = "There was an error resetting the password, please try again."
+
+        if session["language"]==0:
+
+            session["flagText"] = "There was an error resetting the password, please try again."
+
+        else:
+						
+            session["flagText"] = "Şifre sıfırlanırken bir hata oluştu, lütfen tekrar deneyin."
 		
         return redirect(url_for("main"))
