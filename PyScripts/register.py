@@ -178,8 +178,8 @@ def register():
 <p>Welcome! Thanks for signing up. Please follow this link to activate your account.</p>
 <p>Verification link (The validity period of the link is 30 minutes): <a href="{}">{}</a></p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
-	
+<p><a href="https://onelinktr.com/">OneLinkTR</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
+<br>
 """.format(token, token)
 
 			konu = "Mail Verification"

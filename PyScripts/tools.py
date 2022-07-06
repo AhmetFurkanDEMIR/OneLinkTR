@@ -13,11 +13,11 @@ myUrl = "http://{}:{}/".format(str(myIp), str(ServerPort))
 
 global MyEmail
 global MyEmailPass
-MyEmail = "your_yandex_mail"
-MyEmailPass = "your_password"
+MyEmail = "onelinktr@yandex.com"
+MyEmailPass = "123456789Zz.A"
 
 # docker-database connect
-
+"""
 conn = psycopg2.connect(
     host="db-postgres",
     database="postgres",
@@ -33,7 +33,7 @@ conn = psycopg2.connect(
     port="5432",
     user="postgres",
     password="123456789Zz.")
-"""
+
 
 cursor = conn.cursor()
 

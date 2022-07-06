@@ -82,9 +82,9 @@ def replacePass():
 <p>Password Reset Link.</p>
 <p>Link (The validity period of the connection is 30 minutes) : <a href="{}">{}</a></p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
-        
-    """.format(token, token)
+<p><a href="https://onelinktr.com/">OneLinkTR</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
+<br>
+""".format(token, token)
 
                 konu = "Password Reset Link"
                 ileti = strHtml
@@ -276,9 +276,9 @@ def resetPass(token):
                 
 <p>New Password: {}</p>
 <br>
-<p><a href="https://teklink.com/">TekLink</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
-        
-    """.format(password)
+<p><a href="https://onelinktr.com/">OneLinkTR</a> | <a href="https://softforrange.com/">SoftForRange</a></p>
+<br>
+""".format(password)
 
         konu = "New Password"
         ileti = strHtml
