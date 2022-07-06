@@ -78,7 +78,7 @@ def generate():
 				else:
 					session["flagText"]="Uygulama adınız \"{}\" karakterini içermemelidir.".format(i)
 
-				return redirect(url_for("myApps.myApps"))
+				return redirect(url_for("create"))
 
 		if len(str(appName)) > 3 and len(str(appName)) < 30:
 
