@@ -5,11 +5,9 @@ from flask import session, redirect, url_for
 global ServerIp
 global ServerPort
 
-ServerIp = "0.0.0.0"
-ServerPort = 5000
 
+ServerPort = 5000
 global myUrl
-myIp = "your_public_ip"
 myIp = "192.168.1.33"
 myUrl = "http://{}:{}/".format(str(myIp), str(ServerPort))
 
