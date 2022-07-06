@@ -19,6 +19,8 @@ OR, you can run this application in your local by following the steps below.
 
 ### Deploying OneLinkTR with Docker.
 
+![index](https://user-images.githubusercontent.com/54184905/177587011-5fc7947b-fa34-4cf3-95dd-78e90752de1d.jpeg)
+
 In order to run the OneLinkTR application on our computer, we need to install Docker, we go to the link for Docker installation. [Link](https://docs.docker.com/engine/install/ubuntu/)
 
 After the Docker installation, you need to install git on your computer so that you can pull the project to your own computer, run the command below to install git.
