@@ -4,3 +4,5 @@ qrcode==7.3.1
 itsdangerous==2.1.2
 psycopg2==2.8.6
 Pillow==9.0.0
+Flask-reCaptcha==0.4.2
+Jinja2==3.0.0
