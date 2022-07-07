@@ -1,4 +1,4 @@
-from flask import render_template, Flask, request, session, redirect, url_for
+from flask import render_template, request, session, redirect, url_for
 from PyScripts.tools import *
 from PyScripts.generate import generateBluePrint
 from PyScripts.register import registerBluePrint, confirm_emailBluePrint
@@ -7,10 +7,6 @@ from PyScripts.myApps import deleteAppBluePrint
 from passlib.hash import sha256_crypt
 from PyScripts.replacePassword import replacePassBluePrint, resetPassBluePrint
 
-# Flask app
-app = Flask(__name__)
-app.config['UPLOAD_PATH'] = 'static/uploads'
-app.secret_key = b'_softforrange***d*'
 
 app.register_blueprint(generateBluePrint)
 app.register_blueprint(registerBluePrint)
@@ -19,6 +15,7 @@ app.register_blueprint(myAppsBluePrint)
 app.register_blueprint(replacePassBluePrint)
 app.register_blueprint(resetPassBluePrint)
 app.register_blueprint(deleteAppBluePrint)
+
 
 @app.route("/")
 def main():
@@ -81,6 +78,19 @@ def login():
         return redirect(url_for("myApps.myApps"))
 
     if request.method == "POST":
+
+        if recaptcha.verify()==False:
+
+            session["flag"]=2
+
+            if session["language"]==0:
+
+                session["flagText"]="We were unable to confirm that you are human."
+
+            else:
+                session["flagText"]="İnsan olduğunuzu doğrulayamadık."
+
+            return redirect(url_for("main"))
 
         try:
 
