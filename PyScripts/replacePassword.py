@@ -36,6 +36,19 @@ def replacePass():
 
     if request.method == "POST":
 
+        if recaptcha.verify()==False:
+
+            session["flag"]=2
+
+            if session["language"]==0:
+
+                session["flagText"]="We were unable to confirm that you are human."
+
+            else:
+                session["flagText"]="İnsan olduğunuzu doğrulayamadık."
+
+            return redirect(url_for("main"))
+
         try:
 
             email = request.form['email']
